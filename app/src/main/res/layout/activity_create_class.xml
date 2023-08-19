@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Teacher.CreateNewSection.CreateClass">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title=""
+        app:titleTextColor="#647DCA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Class"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="#647DCA"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/close"
+            android:src="@drawable/close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="#647DCA"
+            android:layout_gravity="right"
+            android:layout_marginEnd="25dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/className"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Course Name"
+        android:inputType="textCapWords"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dept"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/className" />
+
+    <TextView
+        android:id="@+id/sDate"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dept" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Duration"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dept"
+        app:layout_constraintStart_toStartOf="@+id/dept"
+        app:layout_constraintTop_toTopOf="@+id/dept" />
+
+    <TextView
+        android:id="@+id/classTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Class Time"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cTime"
+        app:layout_constraintStart_toStartOf="@+id/cTime"
+        app:layout_constraintTop_toTopOf="@+id/cTime" />
+
+    <TextView
+        android:id="@+id/cTime"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sDate" />
+
+    <ImageView
+        android:id="@+id/timePicker"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/timeicon"
+        app:layout_constraintBottom_toBottomOf="@+id/cTime"
+        app:layout_constraintEnd_toEndOf="@+id/cTime"
+        app:layout_constraintTop_toTopOf="@+id/cTime"/>
+
+
+    <Spinner
+        android:id="@+id/dropdown_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="@+id/dept"
+        app:layout_constraintTop_toTopOf="@+id/dept" />
+
+    <TextView
+        android:id="@+id/startdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Start Date"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sDate"
+        app:layout_constraintStart_toStartOf="@+id/sDate"
+        app:layout_constraintTop_toTopOf="@+id/sDate" />
+
+    <ImageView
+        android:id="@+id/datePicker"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/dobpicker"
+        app:layout_constraintBottom_toBottomOf="@+id/sDate"
+        app:layout_constraintEnd_toEndOf="@+id/sDate"
+        app:layout_constraintTop_toTopOf="@+id/sDate"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="......... Select class days ........."
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/monday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cTime"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/create"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="224dp"
+        android:background="@drawable/rounded_shape"
+        android:text="Create"
+        android:textColor="#30384E"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <RadioButton
+        android:id="@+id/wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="8dp"
+        android:text="Wednesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monday" />
+
+    <RadioButton
+        android:id="@+id/tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="115dp"
+        android:text="Tuesday"
+        app:layout_constraintStart_toEndOf="@+id/monday"
+        app:layout_constraintTop_toBottomOf="@+id/cTime" />
+
+    <RadioButton
+        android:id="@+id/thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Thursday"
+        app:layout_constraintStart_toEndOf="@+id/wednesday"
+        app:layout_constraintTop_toBottomOf="@+id/tuesday" />
+
+    <RadioButton
+        android:id="@+id/friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="8dp"
+        android:text="Friday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wednesday" />
+
+    <RadioButton
+        android:id="@+id/monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="115dp"
+        android:text="Monday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cTime" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Teacher.TeacherHomePage.TeacherHome">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/my_purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="40sp"
+        android:textColor="#647DCA"
+        android:padding="10dp"
+        android:paddingStart="18dp"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title=""
+        app:titleTextColor="#647DCA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/my_purple">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departments"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="#647DCA"/>
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="26dp"-->
+        <!--            android:layout_height="26dp"-->
+        <!--            android:src="@drawable/tdot"-->
+        <!--            android:layout_gravity="end"-->
+        <!--            android:layout_marginEnd="12dp"/>-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/personalDP"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/default_user"
+            android:layout_gravity="right"
+            android:layout_marginEnd="25dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="65dp"
+        android:background="@drawable/curve"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.815">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CSE"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            android:contextClickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toStartOf="@+id/IT"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CSE"
+            android:textSize="24dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/CSE"
+            app:layout_constraintEnd_toEndOf="@+id/CSE"
+            app:layout_constraintStart_toStartOf="@+id/CSE"
+            app:layout_constraintTop_toTopOf="@+id/CSE" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/EE"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@+id/AEIE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/IT"
+            app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EE"
+            android:textSize="24dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/EE"
+            app:layout_constraintEnd_toEndOf="@+id/EE"
+            app:layout_constraintStart_toStartOf="@+id/EE"
+            app:layout_constraintTop_toTopOf="@+id/EE" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ECE"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="20dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@+id/AEIE"
+            app:layout_constraintEnd_toStartOf="@+id/EE"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CSE"
+            app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ECE"
+            android:textSize="24dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ECE"
+            app:layout_constraintEnd_toEndOf="@+id/ECE"
+            app:layout_constraintStart_toStartOf="@+id/ECE"
+            app:layout_constraintTop_toTopOf="@+id/ECE" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/IT"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IT"
+            android:textSize="24dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/IT"
+            app:layout_constraintEnd_toEndOf="@+id/IT"
+            app:layout_constraintStart_toStartOf="@+id/IT"
+            app:layout_constraintTop_toTopOf="@+id/IT" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/AEIE"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="432dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AEIE"
+            android:textSize="24dp"
+            android:elevation="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/AEIE"
+            app:layout_constraintEnd_toEndOf="@+id/AEIE"
+            app:layout_constraintStart_toStartOf="@+id/AEIE"
+            app:layout_constraintTop_toTopOf="@+id/AEIE" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

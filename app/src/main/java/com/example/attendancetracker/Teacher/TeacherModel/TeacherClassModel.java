@@ -6,16 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class TeacherClassModel {
-    private String className, class_Timing;
+    private String className, class_Timing, classID;
     private DateClass dateClass;
+    ArrayList<AttendanceModel> timeTable;
 
     public TeacherClassModel() {
     }
 
-    public TeacherClassModel(String className, String class_Timing, DateClass dateClass) {
+    public TeacherClassModel(String className, String class_Timing, String classID, DateClass dateClass, ArrayList<AttendanceModel> timeTable) {
         this.className = className;
         this.class_Timing = class_Timing;
+        this.classID = classID;
         this.dateClass = dateClass;
+        this.timeTable = timeTable;
     }
 
     public String getClassName() {
@@ -40,5 +43,21 @@ public class TeacherClassModel {
 
     public void setDateClass(DateClass dateClass) {
         this.dateClass = dateClass;
+    }
+
+    public ArrayList<AttendanceModel> getTimeTable() {
+        return timeTable;
+    }
+
+    public void setTimeTable(ArrayList<AttendanceModel> timeTable) {
+        this.timeTable = timeTable;
+    }
+
+    public String getClassID() {
+        return classID;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
     }
 }

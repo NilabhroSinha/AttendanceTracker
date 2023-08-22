@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StdSignUp.StudentSignup_2;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
+import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
 import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +35,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -149,7 +155,6 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
 
                                 sDate = calendar.getTime();
 
-
                             }
                         },
                         // on below line we are passing year,
@@ -170,11 +175,26 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                 calendar.add(Calendar.MONTH, totalDuration);
                 endDate = calendar.getTime();                                //end Date
 
-                DateClass dateClass = new DateClass(sDate, endDate, getAllClassesInAWeek(), new ArrayList<String>());
-                TeacherClassModel teacherClassModel = new TeacherClassModel(className.getText().toString(), class_Timing, dateClass);
+                ArrayList<Integer> weeklyClasses = getAllClassesInAWeek();
+
+                LocalDate firstClass = null;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    firstClass = LocalDate.of(Integer.parseInt(new SimpleDateFormat("yyyy").format(sDate)), Integer.parseInt(new SimpleDateFormat("MM").format(sDate)), Integer.parseInt(new SimpleDateFormat("dd").format(sDate)));   //   YYYY/MM/DD
+                }
+
+                LocalDate lastClass = null;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    lastClass = LocalDate.of(Integer.parseInt(new SimpleDateFormat("yyyy").format(endDate)), Integer.parseInt(new SimpleDateFormat("MM").format(endDate)), Integer.parseInt(new SimpleDateFormat("dd").format(endDate)));   //   YYYY/MM/DD
+                }
+
+                DateClass dateClass = new DateClass(sDate, endDate, weeklyClasses);
+                ArrayList<AttendanceModel> timetable = getClasses(weeklyClasses, firstClass, lastClass);
 
                 String classID = FirebaseDatabase.getInstance().getReference().push().getKey();
 
+                TeacherClassModel teacherClassModel = new TeacherClassModel(className.getText().toString(), class_Timing, classID, dateClass, timetable);
                 FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).setValue(teacherClassModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -193,52 +213,73 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
-
     }
 
-    int getTotalClassesInAWeek(){
-        int count = 0;
+    public static ArrayList<AttendanceModel> getClasses(ArrayList<Integer> arr, LocalDate f, LocalDate l){
 
-        if(mon.isChecked()){
-            count++;
-        }
-        if(tue.isChecked()){
-            count++;
-        }
-        if(wed.isChecked()){
-            count++;
-        }
-        if(thu.isChecked()){
-            count++;
-        }
-        if(fri.isChecked()){
-            count++;
-        }
+        ArrayList<AttendanceModel> dates = new ArrayList<>();
+        DayOfWeek day=null;
 
-        return count;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            for (LocalDate date = f; date.isBefore(l); date = date.plusDays(1))
+            {
+                day = date.getDayOfWeek();
+                if(day.name().equals("MONDAY")){
+                    if(arr.contains(0)){
+
+                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        dates.add(new AttendanceModel(date1));
+                    }
+                }
+                else if(day.name().equals("TUESDAY")){
+
+                    if(arr.contains(1)){
+                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        dates.add(new AttendanceModel(date1));
+                    }
+                }
+                else if(day.name().equals("WEDNESDAY")){
+
+                    if(arr.contains(2)){
+                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        dates.add(new AttendanceModel(date1));
+                    }
+                }
+                else if(day.name().equals("THURSDAY")){
+
+                    if(arr.contains(3)){
+                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        dates.add(new AttendanceModel(date1));
+                    }
+                }
+                else if(day.name().equals("FRIDAY")){
+                    if(arr.contains(4)){
+                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        dates.add(new AttendanceModel(date1));
+                    }
+                }
+
+            }
+        }
+        return dates;
     }
 
     ArrayList<Integer> getAllClassesInAWeek(){
         ArrayList<Integer> list = new ArrayList<>();
 
         if(mon.isChecked()){
-            Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
             list.add(0);  //monday
         }
         if(tue.isChecked()){
-            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
             list.add(1);
         }
         if(wed.isChecked()){
-            Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
             list.add(2);
         }
         if(thu.isChecked()){
-            Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
             list.add(3);
         }
         if(fri.isChecked()){
-            Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
             list.add(4);
         }
 

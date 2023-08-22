@@ -55,7 +55,8 @@ public class TeacherFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
-        ifAlreadyPresent();
+        if(auth.getUid() != null)
+            ifAlreadyPresent();
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override

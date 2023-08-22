@@ -1,6 +1,7 @@
 package com.example.attendancetracker.Teacher.TeacherAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Teacher.Adapters.AllAssignedClassesAdapter;
+import com.example.attendancetracker.Teacher.ClassDetails.ClassDetailsView;
 import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
 
@@ -30,13 +32,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssignedClassesAdapter2.ViewHolder>{
     Context context;
-    String profilePicture;
+    String profilePicture, department;
     ArrayList<TeacherClassModel> classesArrayList;
 
-    public AllAssignedClassesAdapter2(Context context, ArrayList<TeacherClassModel> classesArrayList, String profilePicture) {
+    public AllAssignedClassesAdapter2(Context context, ArrayList<TeacherClassModel> classesArrayList, String profilePicture, String department) {
         this.context = context;
         this.classesArrayList = classesArrayList;
         this.profilePicture = profilePicture;
+        this.department = department;
     }
 
     @NonNull
@@ -83,6 +86,18 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
         Glide.with(context).load(profilePicture).into(holder.teacherDp);
         holder.subject.setText(className);
         holder.time.setText("Time: " + time + "AM");
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ClassDetailsView.class);
+                intent.putExtra("className", className);
+                intent.putExtra("department", department);
+                intent.putExtra("time", time);
+                intent.putExtra("classID", classesArrayList.get(position).getClassID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

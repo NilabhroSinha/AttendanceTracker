@@ -120,7 +120,7 @@ public class AllAssignedClasses extends AppCompatActivity {
 
                     AllAssignedClassesRecyclerView.setLayoutManager(new LinearLayoutManager(AllAssignedClasses.this));
 
-                    recyclerViewAdapter = new AllAssignedClassesAdapter2(AllAssignedClasses.this, classesArrayList, teacherImage);
+                    recyclerViewAdapter = new AllAssignedClassesAdapter2(AllAssignedClasses.this, classesArrayList, teacherImage, department);
                     AllAssignedClassesRecyclerView.setAdapter(recyclerViewAdapter);
 
                 }

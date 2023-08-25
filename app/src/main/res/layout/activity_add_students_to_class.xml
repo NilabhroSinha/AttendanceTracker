@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".Teacher.CreateNewSection.AddStudentsToClass">
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/createClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/my_purple"
+        android:text="  Create Class  "
+        android:textColor="#5772C6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
@@ -15,33 +29,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/backbutton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/leftarrow"
-        android:backgroundTint="#5772C6"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="33dp"
-        app:layout_constraintEnd_toStartOf="@+id/search_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <SearchView
         android:id="@+id/search_bar"
-        android:layout_width="240dp"
+        android:layout_width="260dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
         android:background="@drawable/search_style"
+        android:contextClickable="true"
         android:backgroundTint="#F1F4FD"
         android:clickable="true"
         android:queryBackground="@android:color/transparent"
         android:queryHint="Search Students"
         app:layout_constraintEnd_toStartOf="@+id/switch1"
         app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/backbutton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial

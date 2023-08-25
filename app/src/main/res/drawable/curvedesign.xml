@@ -3,6 +3,4 @@
     <solid android:color="@color/my_purple"/>
     <corners
         android:bottomRightRadius="900dp"/>
-
-
 </shape>

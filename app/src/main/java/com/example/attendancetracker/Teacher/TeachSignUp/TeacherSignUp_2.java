@@ -3,6 +3,7 @@ package com.example.attendancetracker.Teacher.TeachSignUp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -46,6 +47,7 @@ public class TeacherSignUp_2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_sign_up2);
+        this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
 
         pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);

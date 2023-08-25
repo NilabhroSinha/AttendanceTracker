@@ -2,6 +2,7 @@ package com.example.attendancetracker.Teacher.CreateNewSection;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StdSignUp.StudentSignup_2;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
+import com.example.attendancetracker.Teacher.TeacherHomePage.TeacherHome;
 import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
 import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
@@ -79,9 +81,12 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
         teacherName = getIntent().getStringExtra("teacherName");
         teacherImage = getIntent().getStringExtra("teacherImage");
 
+        this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.white));
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(CreateClass.this, TeacherHome.class));
                 finish();
             }
         });
@@ -107,19 +112,8 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 // on below line we are setting selected time
                                 // in our text view.
-//                                ViewGroup vg=(ViewGroup) view.getChildAt(0);
-//                                String AmPm = ((Button)vg.getChildAt(2)).getText().toString();
 
-
-                                String hrs = String.valueOf(hourOfDay), mins = String.valueOf(minute);
-
-                                if(hourOfDay< 10){
-                                    hrs = "0" + hrs;
-                                }
-                                else if(minute < 10){
-                                    mins = "0" + mins;
-                                }
-                                class_Timing = hrs + ":" + mins;
+                                class_Timing = updateTime(hourOfDay, minute);
                                 classTime.setText(class_Timing);
                             }
                         }, hour, minute, false);
@@ -207,6 +201,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                             intent.putExtra("teacherName", teacherName);
                             intent.putExtra("teacherImage", teacherImage);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 });
@@ -284,6 +279,32 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
         }
 
         return list;
+    }
+
+    private String updateTime(int hours, int mins) {
+
+        String timeSet = "";
+        if (hours > 12) {
+            hours -= 12;
+            timeSet = "PM";
+        } else if (hours == 0) {
+            hours += 12;
+            timeSet = "AM";
+        } else if (hours == 12)
+            timeSet = "PM";
+        else
+            timeSet = "AM";
+
+        String minutes = "";
+        if (mins < 10)
+            minutes = "0" + mins;
+        else
+            minutes = String.valueOf(mins);
+
+        String aTime = new StringBuilder().append(hours).append(':')
+                .append(minutes).append(" ").append(timeSet).toString();
+
+        return aTime;
     }
 
     @Override

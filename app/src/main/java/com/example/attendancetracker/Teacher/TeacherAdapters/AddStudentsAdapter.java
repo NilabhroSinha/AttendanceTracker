@@ -1,6 +1,7 @@
 package com.example.attendancetracker.Teacher.TeacherAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,15 +77,25 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
         studentRef = FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID);
         teacherRef = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID);
 
-        if(prevAddedStudents.contains(studentID)){
-            holder.add.setVisibility(View.GONE);
-            holder.check.setVisibility(View.VISIBLE);
-        }
-        else{
-            holder.check.setVisibility(View.GONE);
-            holder.add.setVisibility(View.VISIBLE);
-            holder.add.setText("Add");
-        }
+        teacherRef.child("allStudents").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(studentID)) {
+                    holder.add.setVisibility(View.GONE);
+                    holder.check.setVisibility(View.VISIBLE);
+                }
+                else{
+                    holder.check.setVisibility(View.GONE);
+                    holder.add.setVisibility(View.VISIBLE);
+                    holder.add.setText("Add");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +123,7 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
 
                 map1.put(classID, studentClassModel);
                 FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID).child("allClasses").updateChildren(map1);
-
+                notifyDataSetChanged();
             }
         });
     }

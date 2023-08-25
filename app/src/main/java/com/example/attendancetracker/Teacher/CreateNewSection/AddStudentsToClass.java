@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
 import com.example.attendancetracker.Teacher.TeacherAdapters.AddStudentsAdapter;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +32,10 @@ import java.util.HashSet;
 
 public class AddStudentsToClass extends AppCompatActivity {
     SearchView searchView;
+    ExtendedFloatingActionButton createClass;
     String department, classID, className, teacherName, teacherImage;
     SwitchMaterial showAll;
-    ImageView emptyListID, backbutton;
+    ImageView emptyListID;
     RecyclerView recyclerView;
     AddStudentsAdapter searchViewAdapter;
     ArrayList<StudentModel> allStudents;
@@ -48,7 +51,7 @@ public class AddStudentsToClass extends AppCompatActivity {
         showAll = findViewById(R.id.switch1);
         emptyListID = findViewById(R.id.emptyListID);
         searchView = findViewById(R.id.search_bar);
-        backbutton = findViewById(R.id.backbutton);
+        createClass = findViewById(R.id.createClass);
         allStudents = new ArrayList<>();
 
         HashSet<String> prevAddedStudents = new HashSet<>();
@@ -61,9 +64,10 @@ public class AddStudentsToClass extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        backbutton.setOnClickListener(new View.OnClickListener() {
+        createClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(AddStudentsToClass.this, "Added successfully!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -109,7 +113,12 @@ public class AddStudentsToClass extends AppCompatActivity {
                         String str = ds.getValue(String.class);
                         prevAddedStudents.add(str);
                     }
+
+                    for(String s: prevAddedStudents)
+                        Log.d("huihuihui", s);
+
                 }
+                searchViewAdapter.notifyDataSetChanged();
             }
 
             @Override

@@ -6,7 +6,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 
@@ -34,6 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class StudentHome extends AppCompatActivity {
     String studentImage;
     CircleImageView profilePicture;
+    ImageView qrlogo;
     RecyclerView studentHomeRecylclerView;
     StudentHomeAdapter recyclerViewAdapter;
     ArrayList<StudentClassModel> classesArrayList = new ArrayList<>();
@@ -58,10 +70,37 @@ public class StudentHome extends AppCompatActivity {
 //        createClass = findViewById(R.id.createClass);
 
         studentHomeRecylclerView = findViewById(R.id.recycler);
+        qrlogo = findViewById(R.id.qrlogo);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+
+        qrlogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(StudentHome.this);
+                dialog.setContentView(R.layout.dialogue_qrcode_popout_layout);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                ImageView qr = dialog.findViewById(R.id.qrcode);
+
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+                try {
+                    BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getUid(), BarcodeFormat.QR_CODE, 250, 250);
+
+                    Bitmap bitmap = new BarcodeEncoder().createBitmap(bitMatrix);
+
+                    qr.setImageBitmap(bitmap);
+
+                } catch (WriterException e) {
+                    throw new RuntimeException(e);
+                }
+
+                dialog.show();
+            }
+        });
 
         getClassData();
 

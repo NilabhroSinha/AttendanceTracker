@@ -5,21 +5,33 @@ import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import java.util.ArrayList;
 
 public class StudentClassModel {
-    String className, teacherName, teacherImage;
-    int totalDaysPresent, totalClassesTillNow;
-
-    ArrayList<StudentAttendance> allAttendance;
+    String classID, classTime, className, teacherName, teacherImage;
 
     public StudentClassModel() {
     }
 
-    public StudentClassModel(String className, String teacherName, String teacherImage, int totalDaysPresent, int totalClassesTillNow, ArrayList<StudentAttendance> allAttendance) {
+    public StudentClassModel(String classID, String classTime, String className, String teacherName, String teacherImage) {
+        this.classID = classID;
+        this.classTime = classTime;
         this.className = className;
         this.teacherName = teacherName;
         this.teacherImage = teacherImage;
-        this.totalDaysPresent = totalDaysPresent;
-        this.totalClassesTillNow = totalClassesTillNow;
-        this.allAttendance = allAttendance;
+    }
+
+    public String getClassID() {
+        return classID;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
+
+    public String getClassTime() {
+        return classTime;
+    }
+
+    public void setClassTime(String classTime) {
+        this.classTime = classTime;
     }
 
     public String getClassName() {

@@ -35,11 +35,11 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
 
     private final Context context;
     private List<StudentModel> allStudents = new ArrayList<>();
-    String department, classID, className, teacherName, teacherImage;
+    String department, classID, className, teacherName, teacherImage, classTime;
     HashSet<String> prevAddedStudents;
     DatabaseReference studentRef, teacherRef;
 
-    public AddStudentsAdapter(Context context, HashSet<String> prevAddedStudents, String department, String classID, String className, String teacherName, String teacherImage) {
+    public AddStudentsAdapter(Context context, HashSet<String> prevAddedStudents, String department, String classID, String className, String teacherName, String teacherImage, String classTime) {
         this.context = context;
         this.prevAddedStudents = prevAddedStudents;
         this.department = department;
@@ -47,6 +47,7 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
         this.className = className;
         this.teacherName = teacherName;
         this.teacherImage = teacherImage;
+        this.classTime = classTime;
     }
 
     public void filterList(ArrayList<StudentModel> filterlist) {
@@ -117,34 +118,13 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
 
                 HashMap<String, Object> map1 = new HashMap<>();
 
-                int totalClassesTillNow = getTotalClassesTillNow();
-
-                StudentClassModel studentClassModel = new StudentClassModel(className, teacherName, teacherImage, 0, getTotalClassesTillNow(), new ArrayList<StudentAttendance>());
+                StudentClassModel studentClassModel = new StudentClassModel(classID, classTime, className, teacherName, teacherImage);
 
                 map1.put(classID, studentClassModel);
                 FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID).child("allClasses").updateChildren(map1);
                 notifyDataSetChanged();
             }
         });
-    }
-
-    private int getTotalClassesTillNow() {
-        final int[] total = {0};
-        teacherRef.child("totalClassesTillNow").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    total[0] = snapshot.getValue(Integer.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return total[0];
     }
 
     @Override

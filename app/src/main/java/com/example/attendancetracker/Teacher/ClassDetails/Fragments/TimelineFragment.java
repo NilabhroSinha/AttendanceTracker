@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 public class TimelineFragment extends Fragment {
     String department, classID, className, time;
+    int id;
     RecyclerView recyclerView;
     TimelineFragmentAdapter timelineFragmentAdapter;
     FirebaseAuth auth;
@@ -78,10 +79,19 @@ public class TimelineFragment extends Fragment {
         recyclerView.scrollToPosition(pos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(), attendanceList, className, time);
+        Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
+        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(),attendanceList, className, time, classID, department);
 
         recyclerView.setAdapter(timelineFragmentAdapter);
         return view;
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+
+        id = fragment.getId();
+
     }
 
     public static int getCurrentOrNextDate(ArrayList<AttendanceModel> arr){

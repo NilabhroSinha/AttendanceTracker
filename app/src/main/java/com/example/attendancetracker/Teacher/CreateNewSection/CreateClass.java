@@ -188,7 +188,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
 
                 String classID = FirebaseDatabase.getInstance().getReference().push().getKey();
 
-                TeacherClassModel teacherClassModel = new TeacherClassModel(className.getText().toString(), class_Timing, classID, dateClass, timetable);
+                TeacherClassModel teacherClassModel = new TeacherClassModel(className.getText().toString(), classTime.getText().toString(), classID, dateClass, timetable);
                 FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).setValue(teacherClassModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -200,6 +200,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                             intent.putExtra("className", className.getText().toString());
                             intent.putExtra("teacherName", teacherName);
                             intent.putExtra("teacherImage", teacherImage);
+                            intent.putExtra("classTime", classTime.getText().toString());
                             startActivity(intent);
                             finish();
                         }

@@ -33,7 +33,7 @@ import java.util.HashSet;
 public class AddStudentsToClass extends AppCompatActivity {
     SearchView searchView;
     ExtendedFloatingActionButton createClass;
-    String department, classID, className, teacherName, teacherImage;
+    String department, classID, className, teacherName, teacherImage, classTime;
     SwitchMaterial showAll;
     ImageView emptyListID;
     RecyclerView recyclerView;
@@ -61,6 +61,7 @@ public class AddStudentsToClass extends AppCompatActivity {
         className = getIntent().getStringExtra("className");
         teacherName = getIntent().getStringExtra("teacherName");
         teacherImage = getIntent().getStringExtra("teacherImage");
+        classTime = getIntent().getStringExtra("classTime");
 
         auth = FirebaseAuth.getInstance();
 
@@ -165,7 +166,7 @@ public class AddStudentsToClass extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchViewAdapter = new AddStudentsAdapter(AddStudentsToClass.this, prevAddedStudents, department, classID, className, teacherName, teacherImage);
+        searchViewAdapter = new AddStudentsAdapter(AddStudentsToClass.this, prevAddedStudents, department, classID, className, teacherName, teacherImage, classTime);
         recyclerView.setAdapter(searchViewAdapter);
 
 

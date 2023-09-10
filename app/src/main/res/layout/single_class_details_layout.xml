@@ -32,7 +32,7 @@
         android:layout_height="225dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="30dp"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
         android:layout_marginStart="140dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:elevation="11dp"
+        android:elevation="3dp"
         android:alpha="0.75"
         android:text="Data Structures And Algorithms"
         android:textSize="28dp"
@@ -58,18 +58,31 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
         android:alpha="0.8"
-        android:elevation="11dp"
+        android:elevation="3dp"
         android:layout_marginStart="140dp"
         android:text="Time: 8:00 AM"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/scanner"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:elevation="3dp"
+        android:src="@drawable/scanner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardstatus"
         android:layout_width="80dp"
-        android:layout_height="193dp"
+        android:layout_height="200dp"
+        android:backgroundTint="@color/my_purple"
         android:background="@drawable/leftsidecurves"
         android:layout_marginStart="22dp"
-        android:elevation="5dp"
+        android:elevation="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/timeline"
         app:layout_constraintTop_toTopOf="parent">
@@ -109,4 +122,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transparent"
+        android:layout_width="345dp"
+        android:layout_height="200dp"
+        android:elevation="3dp"
+        android:alpha="0.4"
+        android:visibility="gone"
+        android:background="@drawable/blur_glass_effect"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeline"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,37 +1,28 @@
 package com.example.attendancetracker.Teacher.Adapters;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Teacher.Attendance.TakeAttendance;
-import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
-import com.example.attendancetracker.Teacher.TeacherHomePage.TeacherHome;
+import com.example.attendancetracker.Teacher.ClassDetails.Fragments.TimelineFragment;
 import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.journeyapps.barcodescanner.CaptureActivity;
-import com.journeyapps.barcodescanner.ScanContract;
-import com.journeyapps.barcodescanner.ScanOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -77,23 +68,24 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
             today = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
 
-
         if(date.before(today)){
+            setAttendancePercentage(holder, am.getDate());
             holder.timelineicon.setImageResource(R.drawable.greencheck);
             holder.transparent.setVisibility(View.GONE);
             holder.cardstatus.setBackgroundTintList(context.getResources().getColorStateList(R.color.grey));
             holder.scanner.setVisibility(View.GONE);
         }else if(date.after(today)){
             holder.timelineicon.setImageResource(R.drawable.greydot);
+            holder.subject.setText("To Be Taken");
             holder.transparent.setVisibility(View.VISIBLE);
             holder.cardstatus.setBackgroundTintList(context.getResources().getColorStateList(R.color.yellow));
             holder.scanner.setVisibility(View.GONE);
         }else{
+            setAttendancePercentage(holder, am.getDate());
             holder.transparent.setVisibility(View.GONE);
             holder.timelineicon.setImageResource(R.drawable.hourglass);
             holder.cardstatus.setBackgroundTintList(context.getResources().getColorStateList(R.color.green));
             holder.scanner.setVisibility(View.VISIBLE);
-
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +94,7 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
                 Intent intent = new Intent(context, TakeAttendance.class);
                 intent.putExtra("department", department);
                 intent.putExtra("classID", classID);
+                intent.putExtra("date", date);
                 context.startActivity(intent);
             }
         });
@@ -113,8 +106,51 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
         holder.date.setText(String.valueOf(date.getDate()));
 
         holder.time.setText(time);
-        holder.subject.setText(className);
 
+    }
+
+    private void setAttendancePercentage(ViewHolder holder, Date date) {
+        DatabaseReference classDatabase = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID);
+
+        classDatabase.child("allStudents").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()) return;
+                int totalStudents = 0;
+
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    totalStudents++;
+                }
+
+                int finalTotalStudents = totalStudents;
+                classDatabase.child("timeTable").child(String.valueOf(TakeAttendance.getCurrentOrNextDate(attendanceModels, date))).child("presentStudents").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!snapshot.exists()) return;
+
+                        int presentStudents = 0;
+
+                        for(DataSnapshot snapshot1: snapshot.getChildren()){
+                            presentStudents++;
+                        }
+
+                        double percentage = ((double) presentStudents/(double) finalTotalStudents) * 100;
+
+                        holder.subject.setText(String.valueOf(percentage) + "%");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

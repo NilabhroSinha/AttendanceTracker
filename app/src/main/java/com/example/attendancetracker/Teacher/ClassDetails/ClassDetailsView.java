@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.SignUp.Adapter.PageAdapter;

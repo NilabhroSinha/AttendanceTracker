@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
@@ -61,17 +62,11 @@ public class AllStudentsFragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(!snapshot.exists()) return;
-//                            arrayList.clear();
-                            for(DataSnapshot dataSnapshot1: snapshot.getChildren()){
-                                StudentModel sm = dataSnapshot1.getValue(StudentModel.class);
 
-                                if(Objects.equals(studentID, sm.getStuID())){
-                                    arrayList.add(sm);
-                                }
-                            }
+                            StudentModel sm = snapshot.child(studentID).getValue(StudentModel.class);
 
+                            arrayList.add(sm);
                             recyclerViewAdapter.notifyDataSetChanged();
-
                         }
 
                         @Override
@@ -80,6 +75,7 @@ public class AllStudentsFragment extends Fragment {
                         }
                     });
                 }
+                recyclerViewAdapter.notifyDataSetChanged();
             }
 
             @Override

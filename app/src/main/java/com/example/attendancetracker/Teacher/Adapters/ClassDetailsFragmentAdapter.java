@@ -32,11 +32,9 @@ public class ClassDetailsFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                TimelineFragment sf = new TimelineFragment(department, classID, className, time);
-                return sf;
+                return new TimelineFragment(department, classID, className, time);
             case 1:
-                AllStudentsFragment af = new AllStudentsFragment(department, classID);
-                return af;
+                return new AllStudentsFragment(department, classID);
             default:
                 return null;
         }

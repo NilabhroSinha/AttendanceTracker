@@ -46,7 +46,7 @@
         android:layout_marginEnd="40dp"
         android:elevation="3dp"
         android:alpha="0.75"
-        android:text="Data Structures And Algorithms"
+        android:text="Today"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,8 @@
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
         android:elevation="3dp"
-        android:src="@drawable/scanner"
+        android:alpha="0.8"
+        android:src="@drawable/today"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -125,7 +126,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/transparent"
-        android:layout_width="345dp"
+        android:layout_width="350dp"
         android:layout_height="200dp"
         android:elevation="3dp"
         android:alpha="0.4"

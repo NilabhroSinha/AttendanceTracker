@@ -32,7 +32,6 @@ import java.util.ArrayList;
 
 public class TimelineFragment extends Fragment {
     String department, classID, className, time;
-    int id;
     RecyclerView recyclerView;
     TimelineFragmentAdapter timelineFragmentAdapter;
     FirebaseAuth auth;
@@ -59,13 +58,14 @@ public class TimelineFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
+                attendanceList.clear();
+
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     AttendanceModel am = dataSnapshot.getValue(AttendanceModel.class);
                     attendanceList.add(am);
                 }
 
                 int pos = getCurrentOrNextDate(attendanceList);
-                Toast.makeText(getContext(), pos+"", Toast.LENGTH_SHORT).show();
                 recyclerView.scrollToPosition(pos);
                 timelineFragmentAdapter.notifyDataSetChanged();
             }
@@ -75,28 +75,20 @@ public class TimelineFragment extends Fragment {
 
             }
         });
-        int pos = getCurrentOrNextDate(attendanceList);
-        recyclerView.scrollToPosition(pos);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
-        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(),attendanceList, className, time, classID, department);
+        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(), attendanceList, className, time, classID, department);
 
         recyclerView.setAdapter(timelineFragmentAdapter);
         return view;
     }
 
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-
-        id = fragment.getId();
-
-    }
-
     public static int getCurrentOrNextDate(ArrayList<AttendanceModel> arr){
 
         LocalDate cd = null;
+        LocalDate ldate = null;
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             cd = LocalDate.now();
         }
@@ -104,7 +96,7 @@ public class TimelineFragment extends Fragment {
         for (int i=0 ; i< arr.size() ;i++){
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                LocalDate ldate = LocalDate.of(Integer.parseInt(new SimpleDateFormat("yyyy").format(arr.get(i).getDate())), Integer.parseInt(new SimpleDateFormat("MM").format(arr.get(i).getDate())), Integer.parseInt(new SimpleDateFormat("dd").format(arr.get(i).getDate())));   //   YYYY/MM/DD
+                ldate = LocalDate.of(Integer.parseInt(new SimpleDateFormat("yyyy").format(arr.get(i).getDate())), Integer.parseInt(new SimpleDateFormat("MM").format(arr.get(i).getDate())), Integer.parseInt(new SimpleDateFormat("dd").format(arr.get(i).getDate())));   //   YYYY/MM/DD
 
                 if(cd.isEqual(ldate) || cd.isBefore(ldate)){
                     return i;
@@ -112,6 +104,6 @@ public class TimelineFragment extends Fragment {
             }
 
         }
-        return 0;
+        return arr.size()-1;
     }
 }

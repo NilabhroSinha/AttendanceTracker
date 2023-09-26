@@ -81,15 +81,71 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-        <ImageView
-            android:id="@+id/qrlogo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/qrlogo"
-            android:layout_marginEnd="16dp"
-            android:elevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/addUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:elevation="5dp"
+        app:fab_colorNormal="@color/my_purple"
+        app:fab_colorPressed="#647DCA"
+        app:fab_colorRipple="#99FFFFFF"
+        app:fab_showShadow="true"
+        app:fab_shadowColor="#66000000"
+        app:fab_shadowRadius="4dp"
+        app:fab_shadowXOffset="1dp"
+        app:fab_shadowYOffset="3dp"
+        app:fab_size="normal"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_hideAnimation="@anim/fab_scale_down"
+        app:fab_label=""
+        app:menu_labels_padding="9dp"
+        app:fab_progress_color="#FF009688"
+        app:menu_labels_colorPressed="#D6D6D6"
+        app:fab_progress_backgroundColor="#4D000000"
+        app:fab_progress_indeterminate="false"
+        app:fab_progress_max="100"
+        app:fab_progress="0"
+        app:menu_labels_textColor="@color/my_dark_purple"
+        app:menu_labels_colorNormal="#FFFFFF"
+        app:menu_labels_cornerRadius="20dp"
+        app:fab_progress_showBackground="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/holiday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_class"
+            app:fab_colorNormal="@color/my_purple"
+            app:fab_colorPressed="@color/my_dark_purple"
+            app:fab_label="New Class"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/timetable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/my_purple"
+            app:fab_colorPressed="@color/my_dark_purple"
+            app:fab_label="Friend Requests"
+            app:menu_labels_colorNormal="#4D272727"
+            app:fab_size="normal"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/my_purple"
+            app:fab_colorPressed="@color/my_dark_purple"
+            app:fab_label="Add new Friend"
+            app:fab_size="normal"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

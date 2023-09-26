@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,7 +22,11 @@ import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentAdapters.StudentHomeAdapter;
 import com.example.attendancetracker.Student.StudentModel.StudentClassModel;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
+import com.example.attendancetracker.Student.TimeTable.CalenderLayout;
+import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
+import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
+import com.example.attendancetracker.Teacher.CreateNewSection.CreateClass;
 import com.example.attendancetracker.Teacher.TeacherAdapters.AllAssignedClassesAdapter2;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
 import com.github.clans.fab.FloatingActionButton;
@@ -38,22 +44,24 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentHome extends AppCompatActivity {
     String studentImage;
     CircleImageView profilePicture;
-    ImageView qrlogo;
     RecyclerView studentHomeRecylclerView;
     StudentHomeAdapter recyclerViewAdapter;
     ArrayList<StudentClassModel> classesArrayList = new ArrayList<>();
     FloatingActionMenu addButton;
-    FloatingActionButton createClass;
+    FloatingActionButton qr, timetable, holiday;
     FirebaseAuth auth;
     FirebaseDatabase database;
     FirebaseStorage storage;
+    ArrayList<CustomPair> hList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,20 +71,22 @@ public class StudentHome extends AppCompatActivity {
 
         profilePicture = findViewById(R.id.personalDP);
 
-//        addButton = findViewById(R.id.addUser);
-//        addButton.setMenuButtonColorPressed(R.color.my_dark_purple);
-//        addButton.setMenuButtonColorNormalResId(R.color.my_dark_purple);
-//
-//        createClass = findViewById(R.id.createClass);
+        addButton = findViewById(R.id.addUser);
+        addButton.setMenuButtonColorPressed(R.color.my_dark_purple);
+        addButton.setMenuButtonColorNormalResId(R.color.my_dark_purple);
 
         studentHomeRecylclerView = findViewById(R.id.recycler);
-        qrlogo = findViewById(R.id.qrlogo);
+        qr = findViewById(R.id.qr);
+        holiday = findViewById(R.id.holiday);
+        timetable = findViewById(R.id.timetable);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
 
-        qrlogo.setOnClickListener(new View.OnClickListener() {
+        hList = CalendarApiClient.getList();
+
+        qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dialog dialog = new Dialog(StudentHome.this);
@@ -99,6 +109,19 @@ public class StudentHome extends AppCompatActivity {
                 }
 
                 dialog.show();
+            }
+        });
+
+        holiday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addButton.toggle(true);
+
+                Intent intent = new Intent(StudentHome.this, CalenderLayout.class);
+//                Bundle args = new Bundle();
+//                args.putSerializable("ARRAYLIST",(Serializable)hList);
+                intent.putExtra("hList",hList);
+                StudentHome.this.startActivity(intent);
             }
         });
 
@@ -132,7 +155,7 @@ public class StudentHome extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(snapshot.exists()){
                                         studentImage = snapshot.getValue(String.class);
-                                        Glide.with(StudentHome.this).load(studentImage).into(profilePicture);
+                                        Glide.with(getApplicationContext()).load(studentImage).into(profilePicture);
                                     }
 
                                 }

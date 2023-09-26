@@ -117,7 +117,7 @@ public class TakeAttendance extends AppCompatActivity {
                             arrayList.add(str);
                         }
 
-                        present.setText(presentStudents+"");
+                        present.setText(String.valueOf(presentStudents));
 
                         takeAttendanceAdapter.notifyDataSetChanged();
                     }
@@ -141,7 +141,7 @@ public class TakeAttendance extends AppCompatActivity {
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        takeAttendanceAdapter = new TakeAttendanceAdapter(this, arrayList, department);
+        takeAttendanceAdapter = new TakeAttendanceAdapter(getApplicationContext(), arrayList, department);
         recycler.setAdapter(takeAttendanceAdapter);
     }
 
@@ -158,7 +158,7 @@ public class TakeAttendance extends AppCompatActivity {
                     totalStudents++;
                 }
 
-                strength.setText(totalStudents+"");
+                strength.setText(String.valueOf(totalStudents));
             }
 
             @Override
@@ -209,7 +209,7 @@ public class TakeAttendance extends AppCompatActivity {
 
                             StudentModel studentModel = snapshot.child(decodedStudentID).getValue(StudentModel.class);
 
-                            Glide.with(TakeAttendance.this).load(studentModel.getImageID()).into(dp);
+                            Glide.with(getApplicationContext()).load(studentModel.getImageID()).into(dp);
                             name.setText(studentModel.getName());
                             rollnumber.setText("Roll Number: "+ studentModel.getRollnumber());
                             dept.setText("Department: "+ studentModel.getDepartment());
@@ -329,135 +329,5 @@ public class TakeAttendance extends AppCompatActivity {
         }
         return arr.size()-1;
     }
-
-
-
-//    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
-//        if(result.getContents() != null){
-//            Dialog dialog = new Dialog(this);
-//
-//            String decodedStudentID = String.valueOf(result.getContents());
-//
-//            if(!stack.contains(decodedStudentID))
-//                stack.push(decodedStudentID);
-//
-//            for(String str: stack){
-//                Log.d("well", str);
-//            }
-//
-//            FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    if(!snapshot.exists()) return;
-//
-//
-//                    dialog.setContentView(R.layout.diaglue_approve_decline_student);
-//                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//
-//                    ImageView dp = dialog.findViewById(R.id.dp);
-//                    TextView name = dialog.findViewById(R.id.name);
-//                    TextView rollnumber = dialog.findViewById(R.id.rollnumber);
-//                    TextView dept = dialog.findViewById(R.id.department);
-//
-//                    Button accept = dialog.findViewById(R.id.accept);
-//                    Button decline = dialog.findViewById(R.id.decline);
-//
-//                    decline.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//
-//                    if(snapshot.child(stack.peek()) != null){
-//
-//                        StudentModel studentModel = snapshot.child(stack.peek()).getValue(StudentModel.class);
-//
-//                        Glide.with(TakeAttendance.this).load(studentModel.getImageID()).into(dp);
-//                        name.setText(studentModel.getName());
-//                        rollnumber.setText("Roll Number: "+ studentModel.getRollnumber());
-//                        dept.setText("Department: "+ studentModel.getDepartment());
-//
-//
-//                        accept.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                                FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        int index = 0;
-//                                        for(DataSnapshot snapshot1: snapshot.getChildren()){
-//                                            AttendanceModel attendanceModel = snapshot1.getValue(AttendanceModel.class);
-//
-//                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                                                LocalDate ldate = LocalDate.of(Integer.parseInt(new SimpleDateFormat("yyyy").format(attendanceModel.getDate())), Integer.parseInt(new SimpleDateFormat("MM").format(attendanceModel.getDate())), Integer.parseInt(new SimpleDateFormat("dd").format(attendanceModel.getDate())));   //   YYYY/MM/DD
-//
-//                                                if(LocalDate.now().isEqual(ldate)){
-//
-//                                                    HashMap<String, Object> map = new HashMap<>();
-//                                                    map.put(stack.peek(), stack.peek());
-//                                                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID).child("timeTable").child(index+"").child("presentStudents").updateChildren(map);
-//
-//                                                    FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
-//                                                        @Override
-//                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                            for(DataSnapshot dataSnapshot1: snapshot.getChildren()){
-//                                                                StudentModel sm = dataSnapshot1.getValue(StudentModel.class);
-//
-//                                                                if(stack.peek().equals(sm.getStuID())){
-//
-//                                                                    HashMap<String, Object> map1 = new HashMap<>();
-//
-//                                                                    LocalDate localDate = LocalDate.now();
-//                                                                    map1.put(String.valueOf(LocalDate.now().getDayOfYear()), Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-//
-//                                                                    Log.d("howw", "kibhabeee");
-//
-//                                                                    FirebaseDatabase.getInstance().getReference().child("student").child(department).child(stack.peek()).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
-//                                                                    break;
-//                                                                }
-//                                                            }
-//                                                        }
-//
-//                                                        @Override
-//                                                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                                        }
-//                                                    });
-//                                                    break;
-//                                                }
-//                                            }
-//                                            index++;
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                        dialog.show();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//
-//            dialog.dismiss();
-//        }
-//    });
-
-
-
-
-
 
 }

@@ -25,7 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class AllStudentsFragment extends Fragment {
     String department, classID;
@@ -33,6 +35,7 @@ public class AllStudentsFragment extends Fragment {
     AllStudentsFragmentAdapter recyclerViewAdapter;
     FirebaseAuth auth;
     ArrayList<StudentModel> arrayList = new ArrayList<>();
+    Set<StudentModel> set = new HashSet<>();
 
     public AllStudentsFragment() {
     }
@@ -50,23 +53,28 @@ public class AllStudentsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv);
         auth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("allStudents").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("allStudents").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
 
+                arrayList.clear();
+
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     String studentID = dataSnapshot.getValue(String.class);
 
-                    FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference().child("student").child(department).addListenerForSingleValueEvent(new ValueEventListener() {
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(!snapshot.exists()) return;
 
                             StudentModel sm = snapshot.child(studentID).getValue(StudentModel.class);
 
+//                            if(!arrayList.contains(sm))
                             arrayList.add(sm);
                             recyclerViewAdapter.notifyDataSetChanged();
+
                         }
 
                         @Override

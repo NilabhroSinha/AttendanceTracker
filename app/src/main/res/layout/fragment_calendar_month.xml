@@ -17,7 +17,6 @@
         android:gravity="center"
         android:padding="16dp" />
 
-    <!-- Calendar Grid -->
     <GridLayout
         android:id="@+id/calendarGrid"
         android:layout_width="wrap_content"

@@ -78,7 +78,7 @@ public class StudentHome extends AppCompatActivity {
         studentHomeRecylclerView = findViewById(R.id.recycler);
         qr = findViewById(R.id.qr);
         holiday = findViewById(R.id.holiday);
-        timetable = findViewById(R.id.timetable);
+//        timetable = findViewById(R.id.timetable);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -180,7 +180,7 @@ public class StudentHome extends AppCompatActivity {
 
                                         studentHomeRecylclerView.setLayoutManager(new LinearLayoutManager(StudentHome.this));
 
-                                        recyclerViewAdapter = new StudentHomeAdapter(StudentHome.this, classesArrayList);
+                                        recyclerViewAdapter = new StudentHomeAdapter(StudentHome.this, dept, classesArrayList);
                                         studentHomeRecylclerView.setAdapter(recyclerViewAdapter);
 
 

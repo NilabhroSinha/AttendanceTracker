@@ -33,7 +33,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         HolidayEvent event = eventList.get(position);
         holder.eventTitle.setText(event.getTitle());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
         String formattedDate = sdf.format(event.getDateTime());
         holder.eventDateTime.setText(formattedDate);
     }

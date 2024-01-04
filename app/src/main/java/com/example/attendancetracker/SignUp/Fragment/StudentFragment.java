@@ -54,8 +54,11 @@ public class StudentFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
-        if(auth.getUid() != null)
+        if(auth.getUid() != null) {
+            pd.show();
+            pd.setMessage("Signing in...");
             ifAlreadyPresent();
+        }
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +106,12 @@ public class StudentFragment extends Fragment {
                 if(snapshot.hasChild(auth.getUid())){
                     Intent i = new Intent(getContext(), TeacherHome.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    pd.dismiss();
                     startActivity(i);
                 }else{
                     Intent i = new Intent(getContext(), StudentHome.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    pd.dismiss();
                     startActivity(i);
                 }
             }

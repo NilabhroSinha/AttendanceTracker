@@ -5,6 +5,7 @@ package com.example.attendancetracker.Student.TimeTable;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalenderLayout extends AppCompatActivity implements CalendarMonthFragment.DateSelectionListener {
+public class CalenderLayout extends AppCompatActivity{
 
     private ViewPager2 viewPager;
     private EventAdapter eventAdapter;
@@ -40,11 +41,14 @@ public class CalenderLayout extends AppCompatActivity implements CalendarMonthFr
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
+        recyclerView = findViewById(R.id.upcomingEventsList);
 
         hList = (ArrayList<CustomPair>) getIntent().getSerializableExtra("hList");
 
+
         CalendarPagerAdapter adapter = new CalendarPagerAdapter(this, hList);
         viewPager.setAdapter(adapter);
+
 //        tabLayout.setVisibility(View.GONE);
 
         // Create CalendarMonthFragment instances for different months and tabs
@@ -62,8 +66,7 @@ public class CalenderLayout extends AppCompatActivity implements CalendarMonthFr
         Calendar currentDate = Calendar.getInstance();
         int currentYear = currentDate.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH);
-        int initialPage = calculatePositionForMonth(currentYear, currentMonth);
-        viewPager.setCurrentItem(0, true);
+        viewPager.setCurrentItem(6, true);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -73,44 +76,11 @@ public class CalenderLayout extends AppCompatActivity implements CalendarMonthFr
             }
         });
 
-        recyclerView = findViewById(R.id.upcomingEventsList);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventAdapter = new EventAdapter(getUpcomingEvents()); // Customize this method
         recyclerView.setAdapter(eventAdapter);
-    }
-
-    private int calculatePositionForMonth(int year, int month) {
-        // Calculate the position for the given year and month
-        // This depends on your ViewPager2 setup and how months are organized
-        // For example, if each page in ViewPager2 represents a month, you can calculate it like this:
-
-        return  month + (year - /* Start year of ViewPager2 */ 2022) * 12;
-    }
-
-    // Implement the DateSelectionListener interface
-    @Override
-    public void onDateSelected(String selectedDate) {
-        // Handle date selection, e.g., scroll to the event in the RecyclerView
-
-        // Find the position of the selected date in the event list
-        int position = findEventPosition(selectedDate);
-
-        // Scroll to the selected event position in the RecyclerView
-        if (position != -1) {
-            recyclerView.scrollToPosition(position);
-        }
-    }
-
-    // Helper method to find the position of the selected date in the event list
-    private int findEventPosition(String selectedDate) {
-        for (int i = 0; i < eventAdapter.getItemCount(); i++) {
-            HolidayEvent event = eventAdapter.getItem(i);
-            // You need to modify this condition to match the date format used in your HolidayEvent class
-            if (event.getDateTime().equals(selectedDate)) {
-                return i;
-            }
-        }
-        return -1; // Return -1 if the date is not found in the event list
+        recyclerView.scrollToPosition(adapter.getCurrEvent());
     }
 
     // Customize this method to return your list of upcoming events

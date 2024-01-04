@@ -50,7 +50,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="0%"
-                android:textSize="24dp"
+                android:textSize="20sp"
                 android:textColor="#5772C6"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -52,6 +52,7 @@ import java.util.Stack;
 public class TakeAttendance extends AppCompatActivity {
     Button qr;
     TextView present, strength;
+    ImageView qrImage;
     String department, classID;
     Date date;
     RecyclerView recycler;
@@ -59,6 +60,7 @@ public class TakeAttendance extends AppCompatActivity {
     TakeAttendanceAdapter takeAttendanceAdapter;
     ArrayList<AttendanceModel> attendanceList = new ArrayList<>();
     ArrayList<String> arrayList = new ArrayList<>();
+    ArrayList<StudentModel> presentS = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class TakeAttendance extends AppCompatActivity {
         classID = getIntent().getStringExtra("classID");
         date = (Date) this.getIntent().getExtras().get("date");
 
+        qrImage = findViewById(R.id.qrImage);
         present = findViewById(R.id.present);
         strength = findViewById(R.id.strength);
         qr = findViewById(R.id.qr);
@@ -117,6 +120,35 @@ public class TakeAttendance extends AppCompatActivity {
                             arrayList.add(str);
                         }
 
+
+                        for(String students: arrayList){
+                            FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(!snapshot.exists()) return;
+
+                                    for(DataSnapshot snapshot1: snapshot.getChildren()){
+                                        if(snapshot1.child("stuID").getValue(String.class).equals(students)){
+                                            StudentModel sm = snapshot1.getValue(StudentModel.class);
+
+                                            presentS.add(sm);
+                                        }
+
+                                        Log.d("hi", presentS.size()+"");
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+
+                        if(presentStudents > 0){
+                            qrImage.setVisibility(View.GONE);
+                        }
                         present.setText(String.valueOf(presentStudents));
 
                         takeAttendanceAdapter.notifyDataSetChanged();

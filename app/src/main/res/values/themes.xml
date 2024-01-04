@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">@color/my_purple</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="SpecialDayTextAppearance">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">bold</item>
+        <!-- You can specify other text appearance attributes here as needed -->
+    </style>
 </resources>

@@ -118,7 +118,7 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
 
                 HashMap<String, Object> map1 = new HashMap<>();
 
-                StudentClassModel studentClassModel = new StudentClassModel(classID, classTime, className, teacherName, teacherImage);
+                StudentClassModel studentClassModel = new StudentClassModel(classID, classTime, className, teacherName, FirebaseAuth.getInstance().getUid(), teacherImage);
 
                 map1.put(classID, studentClassModel);
                 FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID).child("allClasses").updateChildren(map1);

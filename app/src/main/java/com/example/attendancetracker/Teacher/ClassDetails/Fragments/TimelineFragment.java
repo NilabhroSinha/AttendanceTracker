@@ -54,7 +54,7 @@ public class TimelineFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv);
         auth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("timeTable").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;

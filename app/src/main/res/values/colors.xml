@@ -15,6 +15,11 @@
     <color name="yellow">#FFBF00</color>
     <color name="green">#228B22</color>
     <color name="red">#E34234</color>
+    <color name="that_yellow">#f6bd60</color>
+    <color name="that_blue">#0096c7</color>
+    <color name="that_green">#55a630</color>
+    <color name="that_grey">#C2C3C1</color>
+    <color name="that_red">#e63946</color>
 
 
 </resources>

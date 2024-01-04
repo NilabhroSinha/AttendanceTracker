@@ -20,6 +20,11 @@
         app:tabMode="scrollable"
         app:tabTextAppearance="?android:attr/textAppearanceMedium"
         app:tabTextColor="@android:color/white" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/my_purple"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcomingEventsList"
@@ -37,6 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/roundedcorners"
+        android:elevation="1dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />

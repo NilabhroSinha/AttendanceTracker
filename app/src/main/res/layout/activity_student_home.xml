@@ -121,29 +121,30 @@
             android:id="@+id/holiday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/new_class"
+            android:src="@drawable/holiday_list"
             app:fab_colorNormal="@color/my_purple"
             app:fab_colorPressed="@color/my_dark_purple"
-            app:fab_label="New Class"
+            app:fab_label="Holiday List"
             app:fab_size="normal" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/timetable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_colorNormal="@color/my_purple"
-            app:fab_colorPressed="@color/my_dark_purple"
-            app:fab_label="Friend Requests"
-            app:menu_labels_colorNormal="#4D272727"
-            app:fab_size="normal"/>
+<!--        <com.github.clans.fab.FloatingActionButton-->
+<!--            android:id="@+id/timetable"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fab_colorNormal="@color/my_purple"-->
+<!--            app:fab_colorPressed="@color/my_dark_purple"-->
+<!--            app:fab_label="Friend Requests"-->
+<!--            app:menu_labels_colorNormal="#4D272727"-->
+<!--            app:fab_size="normal"/>-->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/qr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/qrcode"
             app:fab_colorNormal="@color/my_purple"
             app:fab_colorPressed="@color/my_dark_purple"
-            app:fab_label="Add new Friend"
+            app:fab_label="Your QR Code"
             app:fab_size="normal"/>
 
     </com.github.clans.fab.FloatingActionMenu>

@@ -78,14 +78,14 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
             lastDate = LocalDate.of(lastYear, lastMonth, lastDay);
         }
 
-        long remainingClasses = getTotalNoOfClasses(classDays, firstClass, lastDate);
+        long remainingClasses = getTotalNoOfClasses(classDays, firstClass, lastDate)-2;
         String nextClass = getNextClass(classDays);
 
         holder.remainingClasses.setText("Remaining Classes: " + remainingClasses);
         holder.nextClass.setText("Next Class: "+nextClass);
         Glide.with(context).load(profilePicture).into(holder.teacherDp);
         holder.subject.setText(className);
-        holder.time.setText("Time: " + time + "AM");
+        holder.time.setText("Time: " + time);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,13 +158,13 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
             day = currentDate.getDayOfWeek();
         }
 
-        weekd.add("MONDAY");
-        weekd.add("TUESDAY");
-        weekd.add("WEDNESDAY");
-        weekd.add("THURSDAY");
-        weekd.add("FRIDAY");
-        weekd.add("SATURDAY");
-        weekd.add("SUNDAY");
+        weekd.add("Monday");
+        weekd.add("Tuesday");
+        weekd.add("Wednesday");
+        weekd.add("Thursday");
+        weekd.add("Friday");
+        weekd.add("Saturday");
+        weekd.add("Sunday");
 
         if(day.name()=="MONDAY"){
             return weekd.get(getNextDay(arr,0));

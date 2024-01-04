@@ -6,6 +6,7 @@ import android.util.Pair;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CalendarApiClient {
                 if (response.isSuccessful()) {
                     CalendarResponse calendarResponse = response.body();
                     if (calendarResponse != null) {
+                        arrayList.clear();
                         List<Event> events = calendarResponse.getItems();
                         for (Event event : events) {
                             String summary = event.getSummary();
@@ -46,8 +48,25 @@ public class CalendarApiClient {
                                 throw new RuntimeException(e);
                             }
 
+                            Date currentDate = new Date();
 
-                            arrayList.add(new CustomPair(summary, date));
+                            // Create a Calendar instance and set it to the current date
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(currentDate);
+
+                            // Subtract 6 months from the current date
+                            calendar.add(Calendar.MONTH, -6);
+
+                            // Get the resulting date after subtracting 6 months
+                            Date sixMonthsAgo = calendar.getTime();
+
+                            calendar.add(Calendar.MONTH, 12);
+
+                            Date sixMonthsAfter = calendar.getTime();
+
+                            if(date.after(sixMonthsAgo) && date.before(sixMonthsAfter))
+                                arrayList.add(new CustomPair(summary, date));
+
                         }
                     }
                 } else {

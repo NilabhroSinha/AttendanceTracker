@@ -1,4 +1,5 @@
 package com.example.attendancetracker.Student.TimeTable;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Pair;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class CalendarMonthFragment extends Fragment {
 
-    private DateSelectionListener dateSelectionListener;
+    Context context;
     private int currentYear;
     private int currentMonth;
     private RecyclerView recyclerView;
@@ -53,6 +54,8 @@ public class CalendarMonthFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = getContext();
+
         if (getArguments() != null) {
             currentYear = getArguments().getInt("year");
             currentMonth = getArguments().getInt("month");
@@ -62,8 +65,6 @@ public class CalendarMonthFragment extends Fragment {
             currentYear = calendar.get(Calendar.YEAR);
             currentMonth = calendar.get(Calendar.MONTH);
         }
-
-        // Initialize the list of holiday events (customize as needed)
 
     }
 
@@ -102,7 +103,7 @@ public class CalendarMonthFragment extends Fragment {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
             ));
-            dayOfWeekTextView.setPadding(50, 50, 50, 50);
+            dayOfWeekTextView.setPadding(40, 50, 40, 50);
             dayOfWeekTextView.setText(daysOfWeek[i]);
             dayOfWeekTextView.setGravity(Gravity.CENTER); // Customize the color
             dayOfWeekTextView.setTypeface(null, Typeface.BOLD); // Make it bold if desired
@@ -110,7 +111,7 @@ public class CalendarMonthFragment extends Fragment {
         }
 
         for (int i = 1; i < firstDayOfWeek; i++) {
-            TextView emptyTextView = new TextView(requireContext());
+            TextView emptyTextView = new TextView(context);
             emptyTextView.setLayoutParams(new ViewGroup.LayoutParams(
                     5, 5
             ));
@@ -118,13 +119,13 @@ public class CalendarMonthFragment extends Fragment {
         }
 
         for (int day = 1; day <= maxDaysInMonth; day++) {
-            TextView dateTextView = new TextView(requireContext());
+            TextView dateTextView = new TextView(context);
             dateTextView.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
             ));
 
             dateTextView.setText(String.valueOf(day));
-            dateTextView.setPadding(50, 50, 50, 50);
+            dateTextView.setPadding(40, 50, 40, 50);
             dateTextView.setGravity(Gravity.CENTER);
             dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18); // Adjust the text size as needed
 
@@ -145,17 +146,7 @@ public class CalendarMonthFragment extends Fragment {
                 }
             }
 
-            // Handle click events on date TextViews
-            dateTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (dateSelectionListener != null) {
-                        String dateText = dateTextView.getText().toString();
-                        dateSelectionListener.onDateSelected(dateText);
-                    }
-                }
-            });
-
+            // Handle click events on date TextView
             calendarGrid.addView(dateTextView);
 
             // Move to the next day
@@ -163,10 +154,6 @@ public class CalendarMonthFragment extends Fragment {
         }
 
         return rootView;
-    }
-
-    public void setDateSelectionListener(DateSelectionListener listener) {
-        dateSelectionListener = listener;
     }
 
     public Calendar getCalendarForMonth(int year, int month) {
@@ -177,14 +164,6 @@ public class CalendarMonthFragment extends Fragment {
         return calendar;
     }
 
-    public interface DateSelectionListener {
-        void onDateSelected(String selectedDate);
-    }
-
-    public String getCurrentMonthTitle() {
-        return new SimpleDateFormat("MMMM yyyy", Locale.US)
-                .format(getCalendarForMonth(currentYear, currentMonth).getTime());
-    }
 
     // Customize this method to return your list of holiday events
     private List<HolidayEvent> getHolidayEvents() throws InterruptedException {

@@ -5,16 +5,17 @@ import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import java.util.ArrayList;
 
 public class StudentClassModel {
-    String classID, classTime, className, teacherName, teacherImage;
+    String classID, classTime, className, teacherName, teacherID, teacherImage;
 
     public StudentClassModel() {
     }
 
-    public StudentClassModel(String classID, String classTime, String className, String teacherName, String teacherImage) {
+    public StudentClassModel(String classID, String classTime, String className, String teacherName, String teacherID, String teacherImage) {
         this.classID = classID;
         this.classTime = classTime;
         this.className = className;
         this.teacherName = teacherName;
+        this.teacherID = teacherID;
         this.teacherImage = teacherImage;
     }
 
@@ -34,6 +35,12 @@ public class StudentClassModel {
         this.classTime = classTime;
     }
 
+    public String getTeacherID() {
+        return teacherID;
+    }
+    public void setTeacherID(String teacherID) {
+        this.teacherID = teacherID;
+    }
     public String getClassName() {
         return className;
     }

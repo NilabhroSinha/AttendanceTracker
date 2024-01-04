@@ -1,34 +1,38 @@
-package com.example.attendancetracker.Student.TimeTable;
-import android.util.Pair;
+package com.example.attendancetracker.Student.ClassAttendanceDetails;
+
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
+import com.example.attendancetracker.Student.TimeTable.CalendarMonthFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class CalendarPagerAdapter extends FragmentStateAdapter {
+public class ClassPagerAdapter extends FragmentStateAdapter {
+    String classID, teacherID, department;
     private final int NUM_MONTHS = 13;
-    private final List<CalendarMonthFragment> fragments = new ArrayList<>();
+    private final List<ClassMonthFragment> fragments = new ArrayList<>();
     private final List<String> monthTitles = new ArrayList<>();
-    ArrayList<CustomPair> hlist;
 
-    public CalendarPagerAdapter(FragmentActivity fragmentActivity, ArrayList<CustomPair> hlist) {
+    public ClassPagerAdapter(@NonNull FragmentActivity fragmentActivity, String classID, String teacherID, String department) {
         super(fragmentActivity);
-        this.hlist = hlist;
+
+        this.classID = classID;
+        this.teacherID = teacherID;
+        this.department = department;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
 
@@ -43,7 +47,7 @@ public class CalendarPagerAdapter extends FragmentStateAdapter {
             month -= 12;
         }
 
-        CalendarMonthFragment fragment = CalendarMonthFragment.newInstance(year, month, hlist);
+        ClassMonthFragment fragment = ClassMonthFragment.newInstance(year, month, classID, teacherID, department);
 
         fragments.add(fragment);
         return fragment;
@@ -52,10 +56,6 @@ public class CalendarPagerAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return NUM_MONTHS;
-    }
-
-    public CalendarMonthFragment getFragment(int position) {
-        return fragments.get(position);
     }
 
     public void addMonth(int year, int month) {
@@ -67,26 +67,6 @@ public class CalendarPagerAdapter extends FragmentStateAdapter {
         return monthTitles.get(position);
     }
 
-    public int getCurrEvent() {
-        int i=0;
-        Date now = new Date();
-        for(CustomPair cp: hlist){
-            if(now.equals(cp.getDateValue()) || now.before(cp.getDateValue()))
-                return i;
-            i++;
-        }
-        return 0;
-    }
-
-    public int getCurrentMonth() {
-        Calendar currentCalendar = Calendar.getInstance();
-        return currentCalendar.get(Calendar.MONTH);
-    }
-
-    public int getNumMonths() {
-        return NUM_MONTHS;
-    }
-
     public Calendar getCalendarForMonth(int year, int month) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -95,6 +75,3 @@ public class CalendarPagerAdapter extends FragmentStateAdapter {
         return calendar;
     }
 }
-
-
-

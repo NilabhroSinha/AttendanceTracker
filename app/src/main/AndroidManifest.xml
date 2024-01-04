@@ -19,6 +19,9 @@
         android:theme="@style/Theme.AttendanceTracker"
         tools:targetApi="31">
         <activity
+            android:name=".Student.ClassAttendanceDetails.ClassDetails"
+            android:exported="false" />
+        <activity
             android:name=".Student.TimeTable.CalenderLayout"
             android:exported="false" />
         <activity

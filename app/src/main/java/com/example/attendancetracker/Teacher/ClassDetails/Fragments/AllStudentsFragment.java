@@ -94,7 +94,7 @@ public class AllStudentsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recyclerViewAdapter = new AllStudentsFragmentAdapter(getContext(), arrayList);
+        recyclerViewAdapter = new AllStudentsFragmentAdapter(getContext(), classID, arrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         return view;

@@ -90,6 +90,7 @@ public class StudentSignup_1 extends AppCompatActivity{
                                                     Toast.makeText(StudentSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
 
                                                     startActivity(i);
+                                                    finish();
                                                 }else{
                                                     Toast.makeText(StudentSignup_1.this, "Verify email first", Toast.LENGTH_SHORT).show();
 

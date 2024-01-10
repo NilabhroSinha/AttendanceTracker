@@ -110,6 +110,7 @@ public class TeacherFragment extends Fragment {
                     String years[] = {"First", "Second", "Third", "Fourth"};
 
                     for(int i=0; i< years.length; i++){
+                        int finalI = i;
                         FirebaseDatabase.getInstance().getReference().child("student").child(years[i]).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,6 +120,10 @@ public class TeacherFragment extends Fragment {
                                     pd.dismiss();
                                     startActivity(i);
                                 }
+                                else if(finalI == years.length-1){
+                                    auth.getCurrentUser().delete();
+                                    pd.dismiss();
+                                }
                             }
 
                             @Override
@@ -127,10 +132,7 @@ public class TeacherFragment extends Fragment {
                             }
                         });
 
-                        if(i == years.length-1){
-                            auth.getCurrentUser().delete();
-                            pd.dismiss();
-                        }
+
                     }
 
 

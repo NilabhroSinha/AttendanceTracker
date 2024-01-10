@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class StudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), StudentSignup_1.class));
+                getActivity().finish();
             }
         });
 
@@ -112,14 +114,20 @@ public class StudentFragment extends Fragment {
                     String years[] = {"First", "Second", "Third", "Fourth"};
 
                     for(int i=0; i< years.length; i++){
+                        int finalI = i;
                         FirebaseDatabase.getInstance().getReference().child("student").child(years[i]).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.hasChild(auth.getUid())){
-                                    Intent i = new Intent(getContext(), StudentHome.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    Intent intent = new Intent(getContext(), StudentHome.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     pd.dismiss();
-                                    startActivity(i);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+                                else if(finalI == years.length-1){
+                                    auth.getCurrentUser().delete();
+                                    pd.dismiss();
                                 }
                             }
 
@@ -129,10 +137,6 @@ public class StudentFragment extends Fragment {
                             }
                         });
 
-                        if(i == years.length-1){
-                            auth.getCurrentUser().delete();
-                            pd.dismiss();
-                        }
                     }
 
 

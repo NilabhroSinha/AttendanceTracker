@@ -83,7 +83,6 @@ public class ClassMonthFragment extends Fragment {
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,19 +90,16 @@ public class ClassMonthFragment extends Fragment {
 
         GridLayout calendarGrid = rootView.findViewById(R.id.calendarGrid);
 
-        // Set the calendar title
         SimpleDateFormat titleFormat = new SimpleDateFormat("MMMM yyyy", Locale.US);
         TextView calendarTitle = rootView.findViewById(R.id.calendarTitle);
         calendarTitle.setText(titleFormat.format(getCalendarForMonth(currentYear, currentMonth).getTime()));
 
-        // Set the calendar grid
-        calendarGrid.removeAllViews(); // Clear existing views
+        calendarGrid.removeAllViews();
 
         Calendar calendar = getCalendarForMonth(currentYear, currentMonth);
         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int maxDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        // Adjust for the starting day of the week (e.g., Sunday or Monday)
         calendarGrid.setColumnCount(7);
         String[] daysOfWeek = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         for (int i = 0; i < 7; i++) {

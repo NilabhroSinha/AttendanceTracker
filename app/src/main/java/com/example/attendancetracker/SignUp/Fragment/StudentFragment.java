@@ -82,9 +82,10 @@ public class StudentFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
-                                startActivity(new Intent(getContext(), StudentHome.class));
+                                Intent intent = new Intent(getContext(), StudentHome.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                                 pd.dismiss();
-                                getActivity().finish();
                             }
                             else {
                                 pd.dismiss();
@@ -120,10 +121,9 @@ public class StudentFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.hasChild(auth.getUid())){
                                     Intent intent = new Intent(getContext(), StudentHome.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pd.dismiss();
                                     startActivity(intent);
-                                    getActivity().finish();
                                 }
                                 else if(finalI == years.length-1){
                                     auth.getCurrentUser().delete();

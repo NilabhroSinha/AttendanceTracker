@@ -3,6 +3,7 @@ package com.example.attendancetracker.Student.StdSignUp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
@@ -56,6 +57,7 @@ public class StudentSignup_2 extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_signup2);
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);
@@ -124,8 +126,9 @@ public class StudentSignup_2 extends AppCompatActivity implements AdapterView.On
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
                                                     pd.dismiss();
-                                                    startActivity(new Intent(StudentSignup_2.this, StudentHome.class));
-                                                    finish();
+                                                    Intent intent = new Intent(StudentSignup_2.this, StudentHome.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
                                                 }
                                             }
                                         });

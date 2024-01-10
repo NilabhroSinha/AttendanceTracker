@@ -2,6 +2,7 @@ package com.example.attendancetracker.Teacher.CreateNewSection;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
@@ -62,6 +63,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_class);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         className = findViewById(R.id.className);
         duration = findViewById(R.id.duration);

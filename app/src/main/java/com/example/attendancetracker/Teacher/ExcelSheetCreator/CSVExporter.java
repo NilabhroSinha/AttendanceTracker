@@ -46,7 +46,7 @@ public class CSVExporter {
 
             shareFile(context, file);
 
-            Toast.makeText(context, "CSV file created and saved successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "CSV file created successfully", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Error creating CSV file", Toast.LENGTH_SHORT).show();

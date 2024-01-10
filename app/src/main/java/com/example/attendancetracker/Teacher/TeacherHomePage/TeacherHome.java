@@ -2,6 +2,7 @@ package com.example.attendancetracker.Teacher.TeacherHomePage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
@@ -29,6 +30,7 @@ public class TeacherHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_home);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
 

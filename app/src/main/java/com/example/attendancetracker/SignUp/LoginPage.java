@@ -1,6 +1,7 @@
 package com.example.attendancetracker.SignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -20,6 +21,7 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_login);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);

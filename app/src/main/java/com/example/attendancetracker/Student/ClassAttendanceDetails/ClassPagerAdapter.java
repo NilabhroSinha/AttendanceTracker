@@ -71,7 +71,7 @@ public class ClassPagerAdapter extends FragmentStateAdapter {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, 1); // Set to the first day of the month
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         return calendar;
     }
 }

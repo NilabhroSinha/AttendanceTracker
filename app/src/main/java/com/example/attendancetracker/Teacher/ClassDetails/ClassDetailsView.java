@@ -2,6 +2,7 @@ package com.example.attendancetracker.Teacher.ClassDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -42,6 +43,7 @@ public class ClassDetailsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_details_view);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);

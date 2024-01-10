@@ -2,6 +2,7 @@ package com.example.attendancetracker.Student.ClassAttendanceDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -43,6 +44,7 @@ public class ClassDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_details);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         yourAttendance = findViewById(R.id.attendancePercentage);
         TotalClassesRemaining = findViewById(R.id.RemainingClasses);
@@ -159,16 +161,12 @@ public class ClassDetails extends AppCompatActivity {
         });
 
 
-//        tabLayout.setVisibility(View.GONE);
-
-        // Create CalendarMonthFragment instances for different months and tabs
-        for (int i = -6; i <= 6; i++) { // Display 25 months (12 before, 12 after the current month)
-            int year = Calendar.getInstance().get(Calendar.YEAR); // Customize the year as needed
-            int month = Calendar.getInstance().get(Calendar.MONTH) + i; // Customize the starting month as needed
+        for (int i = -6; i <= 6; i++) {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            int month = Calendar.getInstance().get(Calendar.MONTH) + i;
             adapter.addMonth(year, month);
         }
 
-        // Attach the TabLayout to the ViewPager2
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(adapter.getMonthTitle(position))
         ).attach();
@@ -179,7 +177,6 @@ public class ClassDetails extends AppCompatActivity {
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                // Update the tab selection
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });

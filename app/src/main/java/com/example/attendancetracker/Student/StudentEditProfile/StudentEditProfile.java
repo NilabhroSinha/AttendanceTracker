@@ -3,6 +3,7 @@ package com.example.attendancetracker.Student.StudentEditProfile;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.SignUp.LoginPage;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
+import com.example.attendancetracker.Teacher.TeacherEditProfile.TeacherEditProfile;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,6 +58,7 @@ public class StudentEditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_edit_profile);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         profileImage = findViewById(R.id.userDP);
         editIcon = findViewById(R.id.editIcon);
@@ -179,8 +182,9 @@ public class StudentEditProfile extends AppCompatActivity {
 
         if (id == R.id.logout){
             auth.signOut();
-            finish();
-            startActivity(new Intent(StudentEditProfile.this, LoginPage.class));
+            Intent intent = new Intent(StudentEditProfile.this, LoginPage.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

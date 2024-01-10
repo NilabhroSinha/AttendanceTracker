@@ -2,6 +2,7 @@ package com.example.attendancetracker.Teacher.TeachSignUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
@@ -38,6 +39,7 @@ public class TeacherSignup_1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_signup1);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
 

@@ -3,6 +3,7 @@ package com.example.attendancetracker.Student.StdSignUp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
@@ -44,6 +45,7 @@ public class StudentSignup_1 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_signup1);
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         context = getApplicationContext();
         pd = new ProgressDialog(this);
@@ -86,11 +88,10 @@ public class StudentSignup_1 extends AppCompatActivity{
                                                 auth.getCurrentUser().reload();
                                                 if(auth.getCurrentUser().isEmailVerified()){
                                                     Intent i = new Intent(StudentSignup_1.this, StudentSignup_2.class);
-                                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     Toast.makeText(StudentSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
 
                                                     startActivity(i);
-                                                    finish();
                                                 }else{
                                                     Toast.makeText(StudentSignup_1.this, "Verify email first", Toast.LENGTH_SHORT).show();
 

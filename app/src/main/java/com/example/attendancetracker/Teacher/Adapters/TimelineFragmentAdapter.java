@@ -147,9 +147,9 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
                             presentStudents++;
                         }
 
-                        double percentage = ((double) presentStudents/(double) finalTotalStudents) * 100;
+                        double percentage = Math.round(((double) presentStudents/(double) finalTotalStudents) * 100);
 
-                        holder.subject.setText(String.valueOf(percentage) + "%");
+                        holder.subject.setText(percentage + "%");
                     }
 
                     @Override

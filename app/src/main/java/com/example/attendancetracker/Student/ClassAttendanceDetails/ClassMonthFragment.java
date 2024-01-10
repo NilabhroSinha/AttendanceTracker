@@ -220,7 +220,6 @@ public class ClassMonthFragment extends Fragment {
                                 int eventDay = eventCalendar.get(Calendar.DAY_OF_MONTH);
 
                                 if (currentYear == eventYear && currentMonth == eventMonth && finalDay1 == eventDay) {
-//                    dateTextView.setBackgroundResource(R.drawable.highlighted_background);
                                     dateTextView.setTextColor(context.getColor(R.color.that_green));
                                     dateTextView.setTypeface(null, Typeface.BOLD);
                                     break;

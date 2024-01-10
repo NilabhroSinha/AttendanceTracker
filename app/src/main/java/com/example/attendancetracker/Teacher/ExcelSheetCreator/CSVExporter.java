@@ -15,14 +15,22 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class CSVExporter {
-    public static void exportToCSV(Context context, List<StudentModel> studentDataList) {
+    public static void exportToCSV(Context context, List<StudentModel> studentDataList, Date date) {
         try {
-            File file = new File(context.getExternalFilesDir(null), "AttendanceSheet.csv");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+            // Format the Date object to a String
+            String formattedDate = dateFormat.format(date);
+
+            File file = new File(context.getExternalFilesDir(null), formattedDate+" Attendance Sheet.csv");
             FileWriter fw = new FileWriter(file);
             CSVWriter csvWriter = new CSVWriter(fw);
+
 
             // Add header to CSV
             csvWriter.writeNext(new String[]{"Name", "Roll Number", "Year", "Department"});
@@ -49,10 +57,8 @@ public class CSVExporter {
         try {
             Uri uri;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                // Use FileProvider for scoped storage on Android 10+
                 uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
             } else {
-                // Use Uri.fromFile for non-scoped storage
                 uri = Uri.fromFile(file);
             }
 
@@ -61,11 +67,8 @@ public class CSVExporter {
             shareIntent.setType("text/csv");
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-//            if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
-                context.startActivity(Intent.createChooser(shareIntent, "Share Excel File"));
-//            } else {
-//                Toast.makeText(context, "No app available for sharing", Toast.LENGTH_SHORT).show();
-//            }
+            context.startActivity(Intent.createChooser(shareIntent, "Share Excel File"));
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "Error sharing file", Toast.LENGTH_SHORT).show();

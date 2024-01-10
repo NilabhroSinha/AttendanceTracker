@@ -155,8 +155,6 @@ public class StudentHome extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
 
-
-
                     for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                         String uid = dataSnapshot.getValue(StudentModel.class).getStuID();
 
@@ -206,7 +204,7 @@ public class StudentHome extends AppCompatActivity {
 
 
                                     } else {
-                                        Toast.makeText(StudentHome.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(StudentHome.this, "No Classes Found", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 

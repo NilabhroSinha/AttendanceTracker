@@ -112,7 +112,7 @@ public class AllStudentsFragmentAdapter extends RecyclerView.Adapter<AllStudents
                             }
 
                         }
-                        double attendance = finalClassesTaken > 0 ? ((double)presentDays[0] / (double)finalClassesTaken)*100 : 0;
+                        double attendance = finalClassesTaken > 0 ? Math.round(((double)presentDays[0] / (double)finalClassesTaken)*100) : 0;
                         holder.attendance.setText(attendance+"%");
 
                     }

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.SignUp.LoginPage;
+import com.example.attendancetracker.Student.StdSignUp.StudentSignup_1;
+import com.example.attendancetracker.Student.StdSignUp.StudentSignup_2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class TeacherSignup_1 extends AppCompatActivity {
     EditText email, password;
-    Button signUp;
+    Button signUp, cont;
     ProgressDialog pd;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -52,6 +54,8 @@ public class TeacherSignup_1 extends AppCompatActivity {
         database = FirebaseDatabase.getInstance("https://attendancetracker-1f116-default-rtdb.firebaseio.com");
         storage = FirebaseStorage.getInstance();
 
+        auth.getCurrentUser().reload();
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,30 +64,37 @@ public class TeacherSignup_1 extends AppCompatActivity {
                     Toast.makeText(TeacherSignup_1.this, "Enter you email and password", Toast.LENGTH_LONG).show();
                 else{
                     pd.show();
-                    pd.setMessage("Waiting for verification...");
+                    pd.setMessage("Processing...");
 
                     auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                pd.dismiss();
                                 auth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(TeacherSignup_1.this, "Email Verification Has Been Sent", Toast.LENGTH_SHORT).show();
 
-                                        while(!auth.getCurrentUser().isEmailVerified()){
-                                            auth.getCurrentUser().reload();
-                                            try {
-                                                Thread.sleep(3000);
-                                            } catch (InterruptedException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }
+                                        signUp.setVisibility(View.GONE);
+                                        cont.setVisibility(View.VISIBLE);
 
-                                        pd.dismiss();
-                                        Toast.makeText(TeacherSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                        startActivity(new Intent(TeacherSignup_1.this, TeacherSignUp_2.class));
+                                        cont.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                auth.getCurrentUser().reload();
+                                                if(auth.getCurrentUser().isEmailVerified()){
+                                                    Intent i = new Intent(TeacherSignup_1.this, TeacherSignUp_2.class);
+                                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    Toast.makeText(TeacherSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
+
+                                                    startActivity(i);
+                                                }else{
+                                                    Toast.makeText(TeacherSignup_1.this, "Verify email first", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }
+                                        });
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override

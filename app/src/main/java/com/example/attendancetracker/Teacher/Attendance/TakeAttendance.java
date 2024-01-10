@@ -138,12 +138,28 @@ public class TakeAttendance extends AppCompatActivity {
                                         }
                                     }
 
-                                    download.setOnClickListener(new View.OnClickListener() {
+                                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("timeTable").child(pos+"").child("date").addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
-                                        public void onClick(View view) {
-                                            CSVExporter.exportToCSV(TakeAttendance.this, presentS);
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Long longDate = snapshot.child("time").getValue(Long.class);
+
+                                            Date date = new Date(longDate);
+
+                                            download.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    CSVExporter.exportToCSV(TakeAttendance.this, presentS, date);
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
                                         }
                                     });
+
+
                                 }
 
                                 @Override

@@ -111,15 +111,32 @@ public class UpdateAttendanceAdapter extends RecyclerView.Adapter<UpdateAttendan
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         HashMap<String, Object> map1 = new HashMap<>();
 
-                        LocalDate localDate = null;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            localDate = LocalDate.now();
-                        }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            map1.put(String.valueOf(LocalDate.now().getDayOfYear()), Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                        }
+                        teacherRef.child("timeTable").child(pos+"").child("date").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(!snapshot.exists()) return;
+                                Long timeInLong = snapshot.child("time").getValue(Long.class);
 
-                        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
+                                Date date = new Date(timeInLong);
+
+                                LocalDate localDate = null;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();;
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    map1.put(String.valueOf(localDate.getDayOfYear()), date);
+                                }
+
+                                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
 
                     }
 

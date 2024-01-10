@@ -34,7 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 public class StudentSignup_1 extends AppCompatActivity{
     Context context;
     EditText email, password;
-    Button signUp;
+    Button signUp, cont;
     ProgressDialog pd;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -52,8 +52,11 @@ public class StudentSignup_1 extends AppCompatActivity{
         email = findViewById(R.id.email);
         password = findViewById(R.id.pass);
         signUp = findViewById(R.id.signUp);
+        cont = findViewById(R.id.cont);
 
         auth = FirebaseAuth.getInstance();
+
+        cont.setVisibility(View.GONE);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,34 +66,37 @@ public class StudentSignup_1 extends AppCompatActivity{
                     Toast.makeText(StudentSignup_1.this, "Enter you email and password", Toast.LENGTH_LONG).show();
                 else{
                     pd.show();
-                    pd.setMessage("Waiting for verification...");
-
+                    pd.setMessage("Processing...");
                     auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                pd.dismiss();
                                 auth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(context, "Email Verification Has Been Sent", Toast.LENGTH_SHORT).show();
 
-                                        while(!auth.getCurrentUser().isEmailVerified()){
-                                            auth.getCurrentUser().reload();
-                                            try {
-                                                Thread.sleep(3000);
-                                            } catch (InterruptedException e) {
-                                                throw new RuntimeException(e);
+                                        signUp.setVisibility(View.GONE);
+                                        cont.setVisibility(View.VISIBLE);
+
+                                        cont.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                auth.getCurrentUser().reload();
+                                                if(auth.getCurrentUser().isEmailVerified()){
+                                                    Intent i = new Intent(StudentSignup_1.this, StudentSignup_2.class);
+                                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    Toast.makeText(StudentSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
+
+                                                    startActivity(i);
+                                                }else{
+                                                    Toast.makeText(StudentSignup_1.this, "Verify email first", Toast.LENGTH_SHORT).show();
+
+                                                }
                                             }
-                                        }
+                                        });
 
-                                        pd.dismiss();
-                                        Toast.makeText(StudentSignup_1.this, "Verified Successfully, go back to app", Toast.LENGTH_SHORT).show();
-
-
-                                        Intent i = new Intent(StudentSignup_1.this, StudentSignup_2.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        pd.dismiss();
-                                        startActivity(i);
 
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

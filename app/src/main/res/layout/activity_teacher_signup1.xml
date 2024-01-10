@@ -92,12 +92,27 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signUp"
-        android:layout_width="200sp"
+        android:layout_width="wrap_content"
         android:layout_height="55sp"
         android:layout_gravity="center"
         android:layout_marginTop="40sp"
         android:background="@drawable/rounded_shape"
-        android:text="Continue"
+        android:text="        Send verification link        "
+        android:textColor="#30384E"
+        app:elevation="0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pass" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cont"
+        android:layout_width="wrap_content"
+        android:layout_height="55sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40sp"
+        android:background="@drawable/rounded_shape"
+        android:text="        Continue        "
         android:textColor="#30384E"
         app:elevation="0sp"
         app:layout_constraintEnd_toEndOf="parent"

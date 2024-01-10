@@ -121,7 +121,7 @@ public class ClassDetails extends AppCompatActivity {
 
                         double attendance = 0L;
                         if(classesTaken > 0)
-                            attendance = ((double)presentDays/(double)classesTaken)*100;
+                            attendance = Math.round(((double)presentDays/(double)classesTaken)*100);
 
                         yourAttendance.setText(attendance+"%");
 

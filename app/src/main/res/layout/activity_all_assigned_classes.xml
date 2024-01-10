@@ -9,14 +9,14 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="300sp"
         android:background="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="40sp"
         android:textColor="#647DCA"
-        android:padding="10dp"
+        android:padding="10sp"
         android:paddingStart="18dp"/>
 
     <androidx.appcompat.widget.Toolbar
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Classes"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textColor="#647DCA"/>
 
         <!--        <ImageView-->
@@ -47,11 +47,11 @@
         <!--            android:layout_marginEnd="12dp"/>-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/personalDP"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
             android:src="@drawable/default_user"
             android:layout_gravity="right"
-            android:layout_marginEnd="25dp"/>
+            android:layout_marginEnd="25sp"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/curve"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="65sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,10 +70,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="0sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -97,22 +97,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:elevation="5dp"
+        android:layout_marginBottom="16sp"
+        android:layout_marginRight="16sp"
+        android:elevation="5sp"
         app:fab_colorNormal="@color/my_purple"
         app:fab_colorPressed="#647DCA"
         app:fab_colorRipple="#99FFFFFF"
         app:fab_showShadow="true"
         app:fab_shadowColor="#66000000"
-        app:fab_shadowRadius="4dp"
-        app:fab_shadowXOffset="1dp"
-        app:fab_shadowYOffset="3dp"
+        app:fab_shadowRadius="4sp"
+        app:fab_shadowXOffset="1sp"
+        app:fab_shadowYOffset="3sp"
         app:fab_size="normal"
         app:fab_showAnimation="@anim/fab_scale_up"
         app:fab_hideAnimation="@anim/fab_scale_down"
         app:fab_label=""
-        app:menu_labels_padding="9dp"
+        app:menu_labels_padding="9sp"
         app:fab_progress_color="#FF009688"
         app:menu_labels_colorPressed="#D6D6D6"
         app:fab_progress_backgroundColor="#4D000000"
@@ -121,7 +121,7 @@
         app:fab_progress="0"
         app:menu_labels_textColor="@color/my_dark_purple"
         app:menu_labels_colorNormal="#FFFFFF"
-        app:menu_labels_cornerRadius="20dp"
+        app:menu_labels_cornerRadius="20sp"
         app:fab_progress_showBackground="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

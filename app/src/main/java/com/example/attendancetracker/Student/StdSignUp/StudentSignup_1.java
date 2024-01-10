@@ -1,13 +1,18 @@
 package com.example.attendancetracker.Student.StdSignUp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,16 +20,19 @@ import android.widget.Toast;
 
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.SignUp.LoginPage;
+import com.example.attendancetracker.Student.StudentHomePage.StudentHome;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class StudentSignup_1 extends AppCompatActivity {
+public class StudentSignup_1 extends AppCompatActivity{
+    Context context;
     EditText email, password;
     Button signUp;
     ProgressDialog pd;
@@ -37,6 +45,7 @@ public class StudentSignup_1 extends AppCompatActivity {
         setContentView(R.layout.activity_student_signup1);
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
 
+        context = getApplicationContext();
         pd = new ProgressDialog(this);
         pd.setCanceledOnTouchOutside(false);
 
@@ -63,7 +72,7 @@ public class StudentSignup_1 extends AppCompatActivity {
                                 auth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(StudentSignup_1.this, "Email Verification Has Been Sent", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Email Verification Has Been Sent", Toast.LENGTH_SHORT).show();
 
                                         while(!auth.getCurrentUser().isEmailVerified()){
                                             auth.getCurrentUser().reload();
@@ -75,9 +84,14 @@ public class StudentSignup_1 extends AppCompatActivity {
                                         }
 
                                         pd.dismiss();
-                                        Toast.makeText(StudentSignup_1.this, "Verified Successfully", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                        startActivity(new Intent(StudentSignup_1.this, StudentSignup_2.class));
+                                        Toast.makeText(StudentSignup_1.this, "Verified Successfully, go back to app", Toast.LENGTH_SHORT).show();
+
+
+                                        Intent i = new Intent(StudentSignup_1.this, StudentSignup_2.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        pd.dismiss();
+                                        startActivity(i);
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -95,10 +109,16 @@ public class StudentSignup_1 extends AppCompatActivity {
                             }
                         }
                     });
+
                 }
             }
         });
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("well", "hoi");
+    }
 }

@@ -28,15 +28,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAdapter.ViewHolder>{
     Context context;
     ArrayList<String> arrayList;
-    String department;
+    String whichYear;
 
     public TakeAttendanceAdapter() {
     }
 
-    public TakeAttendanceAdapter(Context context, ArrayList<String> arrayList, String department) {
+    public TakeAttendanceAdapter(Context context, ArrayList<String> arrayList, String whichYear) {
         this.context = context;
         this.arrayList = arrayList;
-        this.department = department;
+        this.whichYear = whichYear;
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAd
     public void onBindViewHolder(@NonNull TakeAttendanceAdapter.ViewHolder holder, int position) {
         String stuID = arrayList.get(position);
 
-        FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -60,7 +60,7 @@ public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAd
                 String name = sm.getName();
                 String imageID = sm.getImageID();
 
-                holder.add.setTextSize(18);
+                holder.add.setTextSize(16);
                 holder.add.setTextColor(Color.parseColor("#228B22"));
 
                 holder.name.setText(name);

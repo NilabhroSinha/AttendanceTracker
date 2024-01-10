@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/timeline"
-        android:layout_width="2dp"
-        android:layout_height="215dp"
+        android:layout_width="2sp"
+        android:layout_height="215sp"
         android:background="#4E4E4E"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,8 +18,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/timelineIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
         android:src="@drawable/default_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
@@ -28,10 +28,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="350dp"
-        android:layout_height="225dp"
+        android:layout_width="350sp"
+        android:layout_height="225sp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="30sp"
         app:cardElevation="3dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,37 +39,36 @@
 
     <TextView
         android:id="@+id/subject"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:elevation="3dp"
+        android:layout_marginTop="40sp"
+        android:layout_marginEnd="40sp"
+        android:layout_marginStart="12sp"
         android:alpha="0.75"
-        android:text="Today"
-        android:textSize="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="3dp"
+        android:text="0.0%"
+        android:textSize="28sp"
+        app:layout_constraintStart_toEndOf="@+id/cardstatus"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="45sp"
+        android:layout_marginStart="12sp"
         android:alpha="0.8"
         android:elevation="3dp"
-        android:layout_marginStart="140dp"
         android:text="Time: 8:00 AM"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/cardstatus" />
 
     <ImageView
         android:id="@+id/scanner"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginBottom="30sp"
+        android:layout_marginEnd="30sp"
         android:elevation="3dp"
         android:alpha="0.8"
         android:src="@drawable/today"
@@ -78,11 +77,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardstatus"
-        android:layout_width="80dp"
-        android:layout_height="200dp"
+        android:layout_width="80sp"
+        android:layout_height="200sp"
         android:backgroundTint="@color/my_purple"
         android:background="@drawable/leftsidecurves"
-        android:layout_marginStart="22dp"
+        android:layout_marginStart="22sp"
         android:elevation="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/timeline"
@@ -91,11 +90,11 @@
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="50sp"
+            android:layout_marginTop="14sp"
             android:text="08"
             android:textColor="@color/white"
-            android:textSize="40dp"
+            android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,10 +102,10 @@
         <TextView
             android:id="@+id/month"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="50sp"
             android:text="AUG"
             android:textColor="@color/white"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date" />
@@ -115,10 +114,10 @@
             android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="28sp"
             android:text="WED"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -126,13 +125,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/transparent"
-        android:layout_width="350dp"
-        android:layout_height="200dp"
+        android:layout_width="350sp"
+        android:layout_height="200sp"
         android:elevation="3dp"
         android:alpha="0.4"
         android:visibility="gone"
         android:background="@drawable/blur_glass_effect"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/timeline"
         app:layout_constraintTop_toTopOf="parent" />

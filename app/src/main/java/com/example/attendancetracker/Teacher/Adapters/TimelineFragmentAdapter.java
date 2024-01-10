@@ -34,16 +34,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragmentAdapter.ViewHolder>{
     Context context;
-    String className, time, classID, department;
+    String className, time, classID, whichYear;
     ArrayList<AttendanceModel> attendanceModels;
 
-    public TimelineFragmentAdapter(Context context, ArrayList<AttendanceModel> attendanceModels, String className, String time, String classID, String department) {
+    public TimelineFragmentAdapter(Context context, ArrayList<AttendanceModel> attendanceModels, String className, String time, String classID, String whichYear) {
         this.context = context;
         this.attendanceModels = attendanceModels;
         this.className = className;
         this.time = time;
         this.classID = classID;
-        this.department = department;
+        this.whichYear = whichYear;
     }
 
     @NonNull
@@ -74,6 +74,17 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
             holder.transparent.setVisibility(View.GONE);
             holder.cardstatus.setBackgroundTintList(context.getResources().getColorStateList(R.color.grey));
             holder.scanner.setVisibility(View.GONE);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, TakeAttendance.class);
+                    intent.putExtra("whichYear", whichYear);
+                    intent.putExtra("classID", classID);
+                    intent.putExtra("date", date);
+                    context.startActivity(intent);
+                }
+            });
         }else if(date.after(today)){
             holder.timelineicon.setImageResource(R.drawable.greydot);
             holder.subject.setText("To Be Taken");
@@ -86,18 +97,20 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
             holder.timelineicon.setImageResource(R.drawable.hourglass);
             holder.cardstatus.setBackgroundTintList(context.getResources().getColorStateList(R.color.green));
             holder.scanner.setVisibility(View.VISIBLE);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, TakeAttendance.class);
+                    intent.putExtra("whichYear", whichYear);
+                    intent.putExtra("classID", classID);
+                    intent.putExtra("date", date);
+                    context.startActivity(intent);
+                }
+            });
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, TakeAttendance.class);
-                intent.putExtra("department", department);
-                intent.putExtra("classID", classID);
-                intent.putExtra("date", date);
-                context.startActivity(intent);
-            }
-        });
+
 
         String month = getMonth(date.getMonth());
         holder.month.setText(month);
@@ -110,7 +123,7 @@ public class TimelineFragmentAdapter extends RecyclerView.Adapter<TimelineFragme
     }
 
     private void setAttendancePercentage(ViewHolder holder, Date date) {
-        DatabaseReference classDatabase = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID);
+        DatabaseReference classDatabase = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classID);
 
         classDatabase.child("allStudents").addValueEventListener(new ValueEventListener() {
             @Override

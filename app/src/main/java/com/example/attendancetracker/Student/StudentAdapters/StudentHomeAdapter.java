@@ -32,12 +32,12 @@ import java.util.Date;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.ViewHolder>{
-    String department;
+    String whichYear;
     Context context;
     ArrayList<StudentClassModel> classesArrayList;
 
-    public StudentHomeAdapter(Context context, String department, ArrayList<StudentClassModel> classesArrayList) {
-        this.department = department;
+    public StudentHomeAdapter(Context context, String whichYear, ArrayList<StudentClassModel> classesArrayList) {
+        this.whichYear = whichYear;
         this.context = context;
         this.classesArrayList = classesArrayList;
     }
@@ -64,7 +64,7 @@ public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.
             public void onClick(View view) {
                 Intent intent = new Intent(context, ClassDetails.class);
 //                intent.putExtra("className", className);
-                intent.putExtra("department", department);
+                intent.putExtra("whichYear", whichYear);
                 intent.putExtra("teacherID", studentClassModel[0].getTeacherID());
                 intent.putExtra("classID", classesArrayList.get(position).getClassID());
                 context.startActivity(intent);
@@ -72,7 +72,7 @@ public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.
         });
 
         ArrayList<Integer> classDays = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(studentClassModel[0].getTeacherID()).child(department).child(studentClassModel[0].getClassID()).child("dateClass").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(studentClassModel[0].getTeacherID()).child(whichYear).child(studentClassModel[0].getClassID()).child("dateClass").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -125,7 +125,7 @@ public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.
                 }
 
                 int finalClassesTaken = classesTaken;
-                FirebaseDatabase.getInstance().getReference().child("student").child(department).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(studentClassModel[0].getClassID()).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(studentClassModel[0].getClassID()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.child("presentDays").exists()){
@@ -135,7 +135,7 @@ public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.
 
                         }
 
-                        int attendance = finalClassesTaken > 0 ? (presentDays[0] / finalClassesTaken)*100 : 0;
+                        double attendance = finalClassesTaken > 0 ? ((double) presentDays[0] / (double) finalClassesTaken)*100 : 0;
                         holder.attendance.setText("Attendance: " +attendance+"%");
 
                     }

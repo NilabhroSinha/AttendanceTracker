@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.attendancetracker.R;
@@ -31,7 +32,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TimelineFragment extends Fragment {
-    String department, classID, className, time;
+    ImageView addUser;
+    String whichYear, classID, className, time;
     RecyclerView recyclerView;
     TimelineFragmentAdapter timelineFragmentAdapter;
     FirebaseAuth auth;
@@ -39,8 +41,8 @@ public class TimelineFragment extends Fragment {
     public TimelineFragment() {
     }
 
-    public TimelineFragment(String department, String classID, String className, String time) {
-        this.department = department;
+    public TimelineFragment(String whichYear, String classID, String className, String time) {
+        this.whichYear = whichYear;
         this.classID = classID;
         this.time = time;
         this.className = className;
@@ -54,7 +56,8 @@ public class TimelineFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv);
         auth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("timeTable").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("timeTable").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -78,7 +81,7 @@ public class TimelineFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(), attendanceList, className, time, classID, department);
+        timelineFragmentAdapter = new TimelineFragmentAdapter(getContext(), attendanceList, className, time, classID, whichYear);
 
         recyclerView.setAdapter(timelineFragmentAdapter);
         return view;

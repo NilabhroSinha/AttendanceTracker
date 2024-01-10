@@ -33,7 +33,7 @@ import java.util.HashSet;
 public class AddStudentsToClass extends AppCompatActivity {
     SearchView searchView;
     ExtendedFloatingActionButton createClass;
-    String department, classID, className, teacherName, teacherImage, classTime;
+    String whichYear, classID, className, teacherName, teacherImage, classTime;
     SwitchMaterial showAll;
     ImageView emptyListID;
     RecyclerView recyclerView;
@@ -56,12 +56,12 @@ public class AddStudentsToClass extends AppCompatActivity {
 
         HashSet<String> prevAddedStudents = new HashSet<>();
 
-        department = getIntent().getStringExtra("department");
-        classID = getIntent().getStringExtra("classID");
-        className = getIntent().getStringExtra("className");
+        whichYear = getIntent().getStringExtra("whichYear"); //
+        classID = getIntent().getStringExtra("classID");  //
+        className = getIntent().getStringExtra("className");  //
         teacherName = getIntent().getStringExtra("teacherName");
         teacherImage = getIntent().getStringExtra("teacherImage");
-        classTime = getIntent().getStringExtra("classTime");
+        classTime = getIntent().getStringExtra("classTime"); //
 
         auth = FirebaseAuth.getInstance();
 
@@ -77,7 +77,7 @@ public class AddStudentsToClass extends AppCompatActivity {
 
         DatabaseReference databaseReference =  database.getReference().child("student");
 
-        FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -103,7 +103,7 @@ public class AddStudentsToClass extends AppCompatActivity {
             }
         });
 
-        DatabaseReference prevRegisteredStudents =  FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("allStudent");
+        DatabaseReference prevRegisteredStudents =  FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("allStudent");
 
         prevRegisteredStudents.addValueEventListener(new ValueEventListener() {
             @Override
@@ -114,9 +114,6 @@ public class AddStudentsToClass extends AppCompatActivity {
                         String str = ds.getValue(String.class);
                         prevAddedStudents.add(str);
                     }
-
-                    for(String s: prevAddedStudents)
-                        Log.d("huihuihui", s);
 
                 }
                 searchViewAdapter.notifyDataSetChanged();
@@ -166,7 +163,7 @@ public class AddStudentsToClass extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchViewAdapter = new AddStudentsAdapter(AddStudentsToClass.this, prevAddedStudents, department, classID, className, teacherName, teacherImage, classTime);
+        searchViewAdapter = new AddStudentsAdapter(AddStudentsToClass.this, prevAddedStudents, whichYear, classID, className, teacherName, teacherImage, classTime);
         recyclerView.setAdapter(searchViewAdapter);
 
 

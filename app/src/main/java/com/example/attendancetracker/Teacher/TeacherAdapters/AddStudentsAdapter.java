@@ -35,14 +35,14 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
 
     private final Context context;
     private List<StudentModel> allStudents = new ArrayList<>();
-    String department, classID, className, teacherName, teacherImage, classTime;
+    String whichYear, classID, className, teacherName, teacherImage, classTime;
     HashSet<String> prevAddedStudents;
     DatabaseReference studentRef, teacherRef;
 
-    public AddStudentsAdapter(Context context, HashSet<String> prevAddedStudents, String department, String classID, String className, String teacherName, String teacherImage, String classTime) {
+    public AddStudentsAdapter(Context context, HashSet<String> prevAddedStudents, String whichYear, String classID, String className, String teacherName, String teacherImage, String classTime) {
         this.context = context;
         this.prevAddedStudents = prevAddedStudents;
-        this.department = department;
+        this.whichYear = whichYear;
         this.classID = classID;
         this.className = className;
         this.teacherName = teacherName;
@@ -75,8 +75,8 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
         holder.name.setText(userName);
         Glide.with(context).load(profilePic).into(holder.profile_image);
 
-        studentRef = FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID);
-        teacherRef = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID);
+        studentRef = FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID);
+        teacherRef = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classID);
 
         teacherRef.child("allStudents").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,7 +121,7 @@ public class AddStudentsAdapter extends RecyclerView.Adapter<AddStudentsAdapter.
                 StudentClassModel studentClassModel = new StudentClassModel(classID, classTime, className, teacherName, FirebaseAuth.getInstance().getUid(), teacherImage);
 
                 map1.put(classID, studentClassModel);
-                FirebaseDatabase.getInstance().getReference().child("student").child(department).child(studentID).child("allClasses").updateChildren(map1);
+                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").updateChildren(map1);
                 notifyDataSetChanged();
             }
         });

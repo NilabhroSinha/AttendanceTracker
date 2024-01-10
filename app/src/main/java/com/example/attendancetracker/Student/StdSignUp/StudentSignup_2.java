@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class StudentSignup_2 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     EditText name, email, rollnumber;
     Spinner dropdown;
-    TextView department;
+    TextView whichYear;
     Button signUp;
     ImageView profileImage, editIcon;
     Uri imageURI = null;
@@ -62,7 +62,7 @@ public class StudentSignup_2 extends AppCompatActivity implements AdapterView.On
 
         name = findViewById(R.id.name);
         rollnumber = findViewById(R.id.rollnumber);
-        department = findViewById(R.id.department);
+        whichYear = findViewById(R.id.department);
         dropdown = findViewById(R.id.dropdown_menu);
         profileImage = findViewById(R.id.userDP);
         editIcon = findViewById(R.id.editDP);
@@ -74,13 +74,13 @@ public class StudentSignup_2 extends AppCompatActivity implements AdapterView.On
         storage = FirebaseStorage.getInstance();
 
         StudentSignup_2.CustomAdapter<String> adapter = new StudentSignup_2.CustomAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, new String[] {"CSE", "IT", "ECE", "EE", "AEIE"});
+                android.R.layout.simple_spinner_dropdown_item, new String[] {"First", "Second", "Third", "Fourth"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         dropdown.setOnItemSelectedListener(this);
 
         dropdown.setAdapter(adapter);
 
-        department.setText(dropdown.getSelectedItem().toString());
+        whichYear.setText(dropdown.getSelectedItem().toString()+" Year");
 
         editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +163,7 @@ public class StudentSignup_2 extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
-        department.setText(item);
+        whichYear.setText(item +" Year");
     }
 
     @Override

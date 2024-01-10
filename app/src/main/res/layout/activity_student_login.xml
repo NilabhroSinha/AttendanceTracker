@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="300sp"
         android:background="#D2B2FF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,9 +33,9 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20sp"
+                android:layout_marginTop="48sp"
+                android:layout_marginBottom="20sp"
                 android:text="Welcome"
                 android:textColor="#8C46ED"
                 android:textSize="40sp"
@@ -49,7 +49,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="100sp"
                 android:alpha="0.5"
                 android:src="@drawable/attendanceimg"
                 android:layout_gravity="center"/>
@@ -60,7 +60,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="16sp"
             android:background="@drawable/background_curve"
             android:orientation="vertical">
 
@@ -72,11 +72,11 @@
                 android:textStyle="bold"
                 android:textColor="#8194CD"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"/>
+                android:layout_marginTop="32sp"/>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabIndicatorColor="@color/my_dark_purple"
@@ -86,11 +86,11 @@
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="30sp"
                 android:layout_width="match_parent"
-                android:layout_height="382dp"
+                android:layout_height="382sp"
                 android:layout_gravity="center"
-                android:paddingTop="32dp">
+                android:paddingTop="32sp">
 
             </androidx.viewpager.widget.ViewPager>
 

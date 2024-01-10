@@ -21,9 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/my_purple"
-        android:padding="10dp"
-        android:layout_marginBottom="300dp"
-        android:paddingStart="18dp"
+        android:padding="10sp"
+        android:layout_marginBottom="300sp"
+        android:paddingStart="18sp"
         android:textColor="#647DCA"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title=""
+        app:title=" "
         app:titleTextColor="#647DCA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="Class Details"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textColor="#647DCA"/>
 
 
@@ -55,10 +55,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:elevation="20dp"
+        android:elevation="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="80sp"
         android:background="@drawable/curve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="46dp"
+            android:layout_marginTop="46sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -85,8 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="32dp"
-            android:paddingBottom="45dp"
+            android:paddingTop="32sp"
+            android:paddingBottom="45sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout">

@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
@@ -32,8 +33,8 @@ import java.util.Date;
 
 public class ClassDetails extends AppCompatActivity {
     int classesTaken = 0, classesRemaining = 0, presentDays = 0;
-    String classID, teacherID, department;
-    TextView yourAttendance, totalClassesTaken, TotalClassesRemaining, TotalClassesAttended;
+    String classID, teacherID, whichYear;
+    TextView yourAttendance, totalClassesTaken, TotalClassesRemaining, TotalClassesAttended, classTiming;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ArrayList<Integer> classDays = new ArrayList<>();
@@ -47,18 +48,19 @@ public class ClassDetails extends AppCompatActivity {
         TotalClassesRemaining = findViewById(R.id.RemainingClasses);
         totalClassesTaken = findViewById(R.id.TotalClassesTaken);
         TotalClassesAttended = findViewById(R.id.TotalClassesAttended);
+        classTiming = findViewById(R.id.classTiming);
 
         classID = getIntent().getStringExtra("classID");
         teacherID = getIntent().getStringExtra("teacherID");
-        department = getIntent().getStringExtra("department");
+        whichYear = getIntent().getStringExtra("whichYear");
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
 
-        ClassPagerAdapter adapter = new ClassPagerAdapter(this, classID, teacherID, department);
+        ClassPagerAdapter adapter = new ClassPagerAdapter(this, classID, teacherID, whichYear);
         viewPager.setAdapter(adapter);
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(department).child(classID).child("dateClass").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(whichYear).child(classID).child("dateClass").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -106,7 +108,7 @@ public class ClassDetails extends AppCompatActivity {
                 totalClassesTaken.setText(String.valueOf(classesTaken));
                 TotalClassesRemaining.setText(String.valueOf(classesRemaining));
 
-                FirebaseDatabase.getInstance().getReference().child("student").child(department).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.child("presentDays").exists()){
@@ -116,7 +118,11 @@ public class ClassDetails extends AppCompatActivity {
                         }
 
                         TotalClassesAttended.setText(String.valueOf(presentDays));
-                        int attendance = classesTaken > 0 ? (presentDays/classesTaken)*100 : 0;
+
+                        double attendance = 0L;
+                        if(classesTaken > 0)
+                            attendance = ((double)presentDays/(double)classesTaken)*100;
+
                         yourAttendance.setText(attendance+"%");
 
                     }
@@ -128,6 +134,22 @@ public class ClassDetails extends AppCompatActivity {
                 });
 
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(whichYear).child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()) return;
+
+                String time = snapshot.child("class_Timing").getValue(String.class);
+
+                classTiming.setText("Class Timing: "+time);
             }
 
             @Override
@@ -152,9 +174,7 @@ public class ClassDetails extends AppCompatActivity {
         ).attach();
 
         Calendar currentDate = Calendar.getInstance();
-        int currentYear = currentDate.get(Calendar.YEAR);
-        int currentMonth = currentDate.get(Calendar.MONTH);
-        viewPager.setCurrentItem(6, true);
+        viewPager.setCurrentItem(6, false);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

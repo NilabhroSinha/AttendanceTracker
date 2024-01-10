@@ -1,10 +1,12 @@
 package com.example.attendancetracker.Teacher.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +57,7 @@ public class AllStudentsFragmentAdapter extends RecyclerView.Adapter<AllStudents
         holder.name.setText(sm.getName());
         Glide.with(context).load(sm.getImageID()).into(holder.profile_image);
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(sm.getDepartment()).child(classID).child("dateClass").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(sm.getWhichYear()).child(classID).child("dateClass").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -101,7 +103,7 @@ public class AllStudentsFragmentAdapter extends RecyclerView.Adapter<AllStudents
                 }
 
                 int finalClassesTaken = classesTaken;
-                FirebaseDatabase.getInstance().getReference().child("student").child(sm.getDepartment()).child(sm.getStuID()).child("allClasses").child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("student").child(sm.getWhichYear()).child(sm.getStuID()).child("allClasses").child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.child("presentDays").exists()){
@@ -110,8 +112,7 @@ public class AllStudentsFragmentAdapter extends RecyclerView.Adapter<AllStudents
                             }
 
                         }
-
-                        int attendance = finalClassesTaken > 0 ? (presentDays[0] / finalClassesTaken)*100 : 0;
+                        double attendance = finalClassesTaken > 0 ? ((double)presentDays[0] / (double)finalClassesTaken)*100 : 0;
                         holder.attendance.setText(attendance+"%");
 
                     }

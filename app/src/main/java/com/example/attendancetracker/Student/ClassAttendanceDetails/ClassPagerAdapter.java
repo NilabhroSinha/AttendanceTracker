@@ -16,17 +16,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClassPagerAdapter extends FragmentStateAdapter {
-    String classID, teacherID, department;
+    String classID, teacherID, whichYear;
     private final int NUM_MONTHS = 13;
     private final List<ClassMonthFragment> fragments = new ArrayList<>();
     private final List<String> monthTitles = new ArrayList<>();
 
-    public ClassPagerAdapter(@NonNull FragmentActivity fragmentActivity, String classID, String teacherID, String department) {
+    public ClassPagerAdapter(@NonNull FragmentActivity fragmentActivity, String classID, String teacherID, String whichYear) {
         super(fragmentActivity);
 
         this.classID = classID;
         this.teacherID = teacherID;
-        this.department = department;
+        this.whichYear = whichYear;
     }
 
     @NonNull
@@ -47,7 +47,7 @@ public class ClassPagerAdapter extends FragmentStateAdapter {
             month -= 12;
         }
 
-        ClassMonthFragment fragment = ClassMonthFragment.newInstance(year, month, classID, teacherID, department);
+        ClassMonthFragment fragment = ClassMonthFragment.newInstance(year, month, classID, teacherID, whichYear);
 
         fragments.add(fragment);
         return fragment;

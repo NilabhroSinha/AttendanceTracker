@@ -20,12 +20,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentAdapters.StudentHomeAdapter;
+import com.example.attendancetracker.Student.StudentEditProfile.StudentEditProfile;
 import com.example.attendancetracker.Student.StudentModel.StudentClassModel;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
 import com.example.attendancetracker.Student.TimeTable.CalenderLayout;
 import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
 import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
+import com.example.attendancetracker.Teacher.CreateNewSection.AddStudentsToClass;
 import com.example.attendancetracker.Teacher.CreateNewSection.CreateClass;
 import com.example.attendancetracker.Teacher.TeacherAdapters.AllAssignedClassesAdapter2;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
@@ -86,6 +88,13 @@ public class StudentHome extends AppCompatActivity {
 
         hList = CalendarApiClient.getList();
 
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +140,7 @@ public class StudentHome extends AppCompatActivity {
 
     void getClassData(){
 
-        String allStreams[] = {"CSE", "IT", "ECE", "EE", "AEIE"};
+        String allStreams[] = {"First", "Second", "Third", "Fourth"};
 
         for(String dept: allStreams){
             getRef(dept);
@@ -139,23 +148,35 @@ public class StudentHome extends AppCompatActivity {
 
     }
 
-    void getRef(String dept){
+    void getRef(String whichYear){
 
-        FirebaseDatabase.getInstance().getReference().child("student").child(dept).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+
+
 
                     for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                         String uid = dataSnapshot.getValue(StudentModel.class).getStuID();
 
                         if(uid.equals(auth.getUid())){
-                            FirebaseDatabase.getInstance().getReference().child("student").child(dept).child(auth.getUid()).child("imageID").addListenerForSingleValueEvent(new ValueEventListener() {
+                            FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(auth.getUid()).child("imageID").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(snapshot.exists()){
                                         studentImage = snapshot.getValue(String.class);
                                         Glide.with(getApplicationContext()).load(studentImage).into(profilePicture);
+
+                                        profilePicture.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent intent = new Intent(StudentHome.this, StudentEditProfile.class);
+                                                intent.putExtra("whichYear", whichYear);
+                                                intent.putExtra("imageID", studentImage);
+                                                startActivity(intent);
+                                            }
+                                        });
                                     }
 
                                 }
@@ -166,13 +187,13 @@ public class StudentHome extends AppCompatActivity {
                                 }
                             });
 
-                            FirebaseDatabase.getInstance().getReference().child("student").child(dept).child(auth.getUid()).child("allClasses").addValueEventListener(new ValueEventListener() {
+                            FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(auth.getUid()).child("allClasses").addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    classesArrayList.clear();
-                                    StudentClassModel classModel;
-
                                     if (snapshot.exists()) {
+                                        classesArrayList.clear();
+                                        StudentClassModel classModel;
+
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             classModel = dataSnapshot.getValue(StudentClassModel.class);
                                             classesArrayList.add(classModel);
@@ -180,7 +201,7 @@ public class StudentHome extends AppCompatActivity {
 
                                         studentHomeRecylclerView.setLayoutManager(new LinearLayoutManager(StudentHome.this));
 
-                                        recyclerViewAdapter = new StudentHomeAdapter(StudentHome.this, dept, classesArrayList);
+                                        recyclerViewAdapter = new StudentHomeAdapter(StudentHome.this, whichYear, classesArrayList);
                                         studentHomeRecylclerView.setAdapter(recyclerViewAdapter);
 
 

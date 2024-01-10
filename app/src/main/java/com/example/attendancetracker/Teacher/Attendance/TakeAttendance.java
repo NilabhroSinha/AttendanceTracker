@@ -1,6 +1,5 @@
 package com.example.attendancetracker.Teacher.Attendance;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,21 +12,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentModel.StudentModel;
 import com.example.attendancetracker.Teacher.Adapters.TakeAttendanceAdapter;
-import com.example.attendancetracker.Teacher.Adapters.TimelineFragmentAdapter;
-import com.example.attendancetracker.Teacher.ClassDetails.Fragments.TimelineFragment;
-import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
-import com.example.attendancetracker.Teacher.TeacherAdapters.AllAssignedClassesAdapter2;
+import com.example.attendancetracker.Teacher.ExcelSheetCreator.CSVExporter;
 import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,8 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
-import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.text.SimpleDateFormat;
@@ -47,13 +39,15 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Stack;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TakeAttendance extends AppCompatActivity {
     Button qr;
+    CircleImageView editAttendance;
     TextView present, strength;
-    ImageView qrImage;
-    String department, classID;
+    ImageView qrImage, download;
+    String whichYear, classID;
     Date date;
     RecyclerView recycler;
     FirebaseAuth auth;
@@ -67,7 +61,7 @@ public class TakeAttendance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_attendance);
 
-        department = getIntent().getStringExtra("department");
+        whichYear = getIntent().getStringExtra("whichYear");
         classID = getIntent().getStringExtra("classID");
         date = (Date) this.getIntent().getExtras().get("date");
 
@@ -75,10 +69,19 @@ public class TakeAttendance extends AppCompatActivity {
         present = findViewById(R.id.present);
         strength = findViewById(R.id.strength);
         qr = findViewById(R.id.qr);
+        editAttendance = findViewById(R.id.editAtt);
         recycler = findViewById(R.id.recycler);
         auth =FirebaseAuth.getInstance();
+        download = findViewById(R.id.download);
 
         setAttendancePercentage();
+
+        Date currentDate = new Date();
+
+        if(currentDate.getDate() != date.getDate()){
+            qr.setVisibility(View.GONE);
+        }
+
 
         qr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +97,7 @@ public class TakeAttendance extends AppCompatActivity {
 
         });
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -107,11 +110,12 @@ public class TakeAttendance extends AppCompatActivity {
 
                 int pos = getCurrentOrNextDate(attendanceList, date);
 
-                FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("timeTable").child(String.valueOf(pos)).child("presentStudents").addValueEventListener(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("timeTable").child(String.valueOf(pos)).child("presentStudents").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(!snapshot.exists()) return;
                         arrayList.clear();
+                        presentS.clear();
                         int presentStudents = 0;
 
                         for(DataSnapshot snapshot1: snapshot.getChildren()){
@@ -120,9 +124,8 @@ public class TakeAttendance extends AppCompatActivity {
                             arrayList.add(str);
                         }
 
-
                         for(String students: arrayList){
-                            FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+                            FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(!snapshot.exists()) return;
@@ -133,9 +136,14 @@ public class TakeAttendance extends AppCompatActivity {
 
                                             presentS.add(sm);
                                         }
-
-                                        Log.d("hi", presentS.size()+"");
                                     }
+
+                                    download.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            CSVExporter.exportToCSV(TakeAttendance.this, presentS);
+                                        }
+                                    });
                                 }
 
                                 @Override
@@ -160,6 +168,20 @@ public class TakeAttendance extends AppCompatActivity {
                     }
                 });
 
+                editAttendance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(TakeAttendance.this, EditAttendance.class);
+                        intent.putExtra("whichYear", whichYear);
+                        intent.putExtra("classID", classID);
+                        intent.putExtra("pos", pos);
+//                intent.putExtra("teacherName", teacherName);
+//                intent.putExtra("teacherImage", teacherImage);
+//                intent.putExtra("classTime", classTime.getText().toString());
+                        startActivity(intent);
+                    }
+                });
+
 
                 takeAttendanceAdapter.notifyDataSetChanged();
             }
@@ -173,12 +195,12 @@ public class TakeAttendance extends AppCompatActivity {
 
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        takeAttendanceAdapter = new TakeAttendanceAdapter(getApplicationContext(), arrayList, department);
+        takeAttendanceAdapter = new TakeAttendanceAdapter(getApplicationContext(), arrayList, whichYear);
         recycler.setAdapter(takeAttendanceAdapter);
     }
 
     private void setAttendancePercentage() {
-        DatabaseReference classDatabase = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID);
+        DatabaseReference classDatabase = FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classID);
 
         classDatabase.child("allStudents").addValueEventListener(new ValueEventListener() {
             @Override
@@ -213,7 +235,7 @@ public class TakeAttendance extends AppCompatActivity {
 
                 Dialog dialog = new Dialog(this);
 
-                FirebaseDatabase.getInstance().getReference().child("student").child(department).addValueEventListener(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(!snapshot.exists()) return;
@@ -244,14 +266,14 @@ public class TakeAttendance extends AppCompatActivity {
                             Glide.with(getApplicationContext()).load(studentModel.getImageID()).into(dp);
                             name.setText(studentModel.getName());
                             rollnumber.setText("Roll Number: "+ studentModel.getRollnumber());
-                            dept.setText("Department: "+ studentModel.getDepartment());
+                            dept.setText("Year: "+ studentModel.getWhichYear());
 
 
                             accept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
 
-                                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
+                                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classID).child("timeTable").addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             int index = 0;
@@ -265,9 +287,9 @@ public class TakeAttendance extends AppCompatActivity {
 
                                                         HashMap<String, Object> map = new HashMap<>();
                                                         map.put(decodedStudentID, decodedStudentID);
-                                                        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(department).child(classID).child("timeTable").child(index+"").child("presentStudents").updateChildren(map);
+                                                        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classID).child("timeTable").child(index+"").child("presentStudents").updateChildren(map);
 
-                                                        FirebaseDatabase.getInstance().getReference().child("student").child(department).child(decodedStudentID).addValueEventListener(new ValueEventListener() {
+                                                        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(decodedStudentID).addValueEventListener(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 HashMap<String, Object> map1 = new HashMap<>();
@@ -275,7 +297,7 @@ public class TakeAttendance extends AppCompatActivity {
                                                                 LocalDate localDate = LocalDate.now();
                                                                 map1.put(String.valueOf(LocalDate.now().getDayOfYear()), Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-                                                                FirebaseDatabase.getInstance().getReference().child("student").child(department).child(decodedStudentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
+                                                                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(decodedStudentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
 
                                                             }
 
@@ -301,7 +323,7 @@ public class TakeAttendance extends AppCompatActivity {
                             });
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                FirebaseDatabase.getInstance().getReference().child("student").child(department).child(decodedStudentID).child("allClasses").child(classID).child("presentDays").child(String.valueOf(LocalDate.now().getDayOfYear())).addListenerForSingleValueEvent(new ValueEventListener() {
+                                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(decodedStudentID).child("allClasses").child(classID).child("presentDays").child(String.valueOf(LocalDate.now().getDayOfYear())).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if(!snapshot.exists()){

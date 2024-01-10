@@ -15,13 +15,13 @@ import com.example.attendancetracker.Teacher.ClassDetails.Fragments.TimelineFrag
 public class ClassDetailsFragmentAdapter extends FragmentPagerAdapter {
     int tabCount;
     Context context;
-    String department, classID, className, time;
+    String whichYear, classID, className, time;
 
-    public ClassDetailsFragmentAdapter(Context context, @NonNull FragmentManager fm, int totalTabs, String department, String classID, String time, String className) {
+    public ClassDetailsFragmentAdapter(Context context, @NonNull FragmentManager fm, int totalTabs, String whichYear, String classID, String time, String className) {
         super(fm);
         this.context = context;
         this.tabCount = totalTabs;
-        this.department = department;
+        this.whichYear = whichYear;
         this.classID = classID;
         this.time = time;
         this.className = className;
@@ -32,9 +32,9 @@ public class ClassDetailsFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new TimelineFragment(department, classID, className, time);
+                return new TimelineFragment(whichYear, classID, className, time);
             case 1:
-                return new AllStudentsFragment(department, classID);
+                return new AllStudentsFragment(whichYear, classID);
             default:
                 return null;
         }

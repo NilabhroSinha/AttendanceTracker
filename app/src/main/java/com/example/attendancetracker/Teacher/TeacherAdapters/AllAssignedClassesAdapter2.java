@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
-import com.example.attendancetracker.Teacher.Adapters.AllAssignedClassesAdapter;
 import com.example.attendancetracker.Teacher.ClassDetails.ClassDetailsView;
 import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
@@ -32,14 +30,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssignedClassesAdapter2.ViewHolder>{
     Context context;
-    String profilePicture, department;
+    String profilePicture, teacherName, whichYear;
     ArrayList<TeacherClassModel> classesArrayList;
 
-    public AllAssignedClassesAdapter2(Context context, ArrayList<TeacherClassModel> classesArrayList, String profilePicture, String department) {
+    public AllAssignedClassesAdapter2(Context context, ArrayList<TeacherClassModel> classesArrayList, String teacherName, String profilePicture, String whichYear) {
         this.context = context;
         this.classesArrayList = classesArrayList;
+        this.teacherName = teacherName;
         this.profilePicture = profilePicture;
-        this.department = department;
+        this.whichYear = whichYear;
     }
 
     @NonNull
@@ -92,7 +91,9 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
             public void onClick(View view) {
                 Intent intent = new Intent(context, ClassDetailsView.class);
                 intent.putExtra("className", className);
-                intent.putExtra("department", department);
+                intent.putExtra("whichYear", whichYear);
+                intent.putExtra("teacherName", teacherName);
+                intent.putExtra("teacherImage", profilePicture);
                 intent.putExtra("time", time);
                 intent.putExtra("classID", classesArrayList.get(position).getClassID());
                 context.startActivity(intent);
@@ -181,8 +182,11 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
         else if(day.name()=="FRIDAY"){
             return weekd.get(getNextDay(arr,5));
         }
+        else if(day.name() == "SATURDAY"){
+            return weekd.get(getNextDay(arr,6));
+        }
         else{
-            return weekd.get(getNextDay(arr,0));
+            return weekd.get(getNextDay(arr, 7));
         }
 
     }

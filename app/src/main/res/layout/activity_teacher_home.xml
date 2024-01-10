@@ -9,15 +9,15 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="300sp"
         android:background="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="40sp"
         android:textColor="#647DCA"
-        android:padding="10dp"
-        android:paddingStart="18dp"/>
+        android:padding="10sp"
+        android:paddingStart="18sp"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -34,9 +34,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departments"
+            android:text="Select Year"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textColor="#647DCA"/>
 
         <!--        <ImageView-->
@@ -47,11 +47,11 @@
         <!--            android:layout_marginEnd="12dp"/>-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/personalDP"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
             android:src="@drawable/default_user"
             android:layout_gravity="right"
-            android:layout_marginEnd="25dp"/>
+            android:layout_marginEnd="25sp"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -59,7 +59,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="65sp"
         android:background="@drawable/curve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,17 +69,17 @@
         app:layout_constraintVertical_bias="0.815">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/CSE"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="20dp"
+            android:id="@+id/first"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_marginTop="32sp"
+            android:layout_marginEnd="20sp"
             android:contextClickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="50sp"
+            app:cardElevation="10sp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toStartOf="@+id/IT"
+            app:layout_constraintEnd_toStartOf="@+id/second"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -87,117 +87,92 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CSE"
-            android:textSize="24dp"
-            android:elevation="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/CSE"
-            app:layout_constraintEnd_toEndOf="@+id/CSE"
-            app:layout_constraintStart_toStartOf="@+id/CSE"
-            app:layout_constraintTop_toTopOf="@+id/CSE" />
+            android:text="1st"
+            android:textSize="24sp"
+            android:elevation="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/first"
+            app:layout_constraintEnd_toEndOf="@+id/first"
+            app:layout_constraintStart_toStartOf="@+id/first"
+            app:layout_constraintTop_toTopOf="@+id/first" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/EE"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginEnd="4dp"
+            android:id="@+id/fourth"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_marginEnd="4sp"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="50sp"
+            app:cardElevation="10sp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="@+id/AEIE"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/IT"
+            app:layout_constraintTop_toBottomOf="@+id/second"
             app:layout_constraintVertical_bias="0.0" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="EE"
-            android:textSize="24dp"
-            android:elevation="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/EE"
-            app:layout_constraintEnd_toEndOf="@+id/EE"
-            app:layout_constraintStart_toStartOf="@+id/EE"
-            app:layout_constraintTop_toTopOf="@+id/EE" />
+            android:text="4th"
+            android:textSize="24sp"
+            android:elevation="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fourth"
+            app:layout_constraintEnd_toEndOf="@+id/fourth"
+            app:layout_constraintStart_toStartOf="@+id/fourth"
+            app:layout_constraintTop_toTopOf="@+id/fourth" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/ECE"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginEnd="20dp"
+            android:id="@+id/third"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_marginEnd="20sp"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="50sp"
+            app:cardElevation="10sp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="@+id/AEIE"
-            app:layout_constraintEnd_toStartOf="@+id/EE"
+            app:layout_constraintEnd_toStartOf="@+id/fourth"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CSE"
+            app:layout_constraintTop_toBottomOf="@+id/first"
             app:layout_constraintVertical_bias="0.0" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ECE"
-            android:textSize="24dp"
-            android:elevation="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/ECE"
-            app:layout_constraintEnd_toEndOf="@+id/ECE"
-            app:layout_constraintStart_toStartOf="@+id/ECE"
-            app:layout_constraintTop_toTopOf="@+id/ECE" />
+            android:text="3rd"
+            android:textSize="24sp"
+            android:elevation="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/third"
+            app:layout_constraintEnd_toEndOf="@+id/third"
+            app:layout_constraintStart_toStartOf="@+id/third"
+            app:layout_constraintTop_toTopOf="@+id/third" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/IT"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="4dp"
+            android:id="@+id/second"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_marginTop="32sp"
+            android:layout_marginEnd="4sp"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp"
+            app:cardCornerRadius="50sp"
+            app:cardElevation="10sp"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="IT"
-            android:textSize="24dp"
-            android:elevation="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/IT"
-            app:layout_constraintEnd_toEndOf="@+id/IT"
-            app:layout_constraintStart_toStartOf="@+id/IT"
-            app:layout_constraintTop_toTopOf="@+id/IT" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/AEIE"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="432dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="11dp"
-            android:text="AEIE"
-            android:textSize="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/AEIE"
-            app:layout_constraintEnd_toEndOf="@+id/AEIE"
-            app:layout_constraintStart_toStartOf="@+id/AEIE"
-            app:layout_constraintTop_toTopOf="@+id/AEIE" />
+            android:elevation="11sp"
+            android:text="2nd"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/second"
+            app:layout_constraintEnd_toEndOf="@+id/second"
+            app:layout_constraintStart_toStartOf="@+id/second"
+            app:layout_constraintTop_toTopOf="@+id/second" />
+
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="500sp"
+            android:layout_marginTop="50sp"
             android:src="@drawable/computerdoodle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -109,10 +109,34 @@ public class StudentFragment extends Fragment {
                     pd.dismiss();
                     startActivity(i);
                 }else{
-                    Intent i = new Intent(getContext(), StudentHome.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    pd.dismiss();
-                    startActivity(i);
+                    String years[] = {"First", "Second", "Third", "Fourth"};
+
+                    for(int i=0; i< years.length; i++){
+                        FirebaseDatabase.getInstance().getReference().child("student").child(years[i]).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.hasChild(auth.getUid())){
+                                    Intent i = new Intent(getContext(), StudentHome.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    pd.dismiss();
+                                    startActivity(i);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        if(i == years.length-1){
+                            auth.getCurrentUser().delete();
+                            pd.dismiss();
+                        }
+                    }
+
+
+
                 }
             }
 

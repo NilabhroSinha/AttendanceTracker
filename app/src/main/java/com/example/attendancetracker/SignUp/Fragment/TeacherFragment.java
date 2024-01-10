@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,16 +100,42 @@ public class TeacherFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference().child("Teacher").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Intent i;
                 if(snapshot.hasChild(auth.getUid())){
-                    i = new Intent(getContext(), TeacherHome.class);
+                    Intent i = new Intent(getContext(), TeacherHome.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    pd.dismiss();
+                    startActivity(i);
 
                 }else{
-                    i = new Intent(getContext(), StudentHome.class);
-                }
+                    String years[] = {"First", "Second", "Third", "Fourth"};
 
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
+                    for(int i=0; i< years.length; i++){
+                        FirebaseDatabase.getInstance().getReference().child("student").child(years[i]).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.hasChild(auth.getUid())){
+                                    Intent i = new Intent(getContext(), StudentHome.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    pd.dismiss();
+                                    startActivity(i);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        if(i == years.length-1){
+                            auth.getCurrentUser().delete();
+                            pd.dismiss();
+                        }
+                    }
+
+
+
+                }
             }
 
             @Override

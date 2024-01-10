@@ -8,7 +8,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:background="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="center"
         app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorHeight="4sp"
         app:tabMode="scrollable"
         app:tabTextAppearance="?android:attr/textAppearanceMedium"
         app:tabTextColor="@android:color/white" />
@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/textView13"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="200sp"
         android:background="@color/my_purple"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/roundedcorners"
-        android:elevation="1dp"
+        android:elevation="1sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,15 +44,15 @@
         android:id="@+id/constraintLayout5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager">
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="25dp"
+            android:layout_width="10sp"
+            android:layout_height="10sp"
+            android:layout_marginTop="25sp"
             android:background="@drawable/highlighted_background"
             android:backgroundTint="@color/that_red"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +61,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="20sp"
             android:text=" - Absent"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView10"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="45dp"
+            android:layout_width="10sp"
+            android:layout_height="10sp"
+            android:layout_marginTop="45sp"
             android:background="@drawable/highlighted_background"
             android:backgroundTint="@color/that_green"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,17 +80,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="40sp"
             android:text=" - Present"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="65dp"
+            android:layout_width="10sp"
+            android:layout_height="10sp"
+            android:layout_marginTop="65sp"
             android:background="@drawable/highlighted_background"
             android:backgroundTint="@color/that_yellow"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,17 +99,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="60sp"
             android:text=" - Upcoming class"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="85dp"
+            android:layout_width="10sp"
+            android:layout_height="10sp"
+            android:layout_marginTop="85sp"
             android:background="@drawable/highlighted_background"
             android:backgroundTint="@color/that_blue"
             app:layout_constraintStart_toStartOf="parent"
@@ -118,8 +118,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginStart="5sp"
+            android:layout_marginTop="80sp"
             android:text=" - Today"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="parent" />
@@ -127,12 +127,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/classDays"
+        android:id="@+id/classTiming"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="12dp"
-        android:text="Class days: MON, TUE, THU"
+        android:layout_marginTop="18sp"
+        android:layout_marginEnd="12sp"
+        android:text="Class Timing: 10:00AM"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
@@ -161,9 +161,9 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/CSE"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
+                    android:layout_marginEnd="20sp"
                     android:contextClickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="50dp"
@@ -174,7 +174,7 @@
                     android:id="@+id/attendancePercentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="2dp"
+                    android:elevation="2sp"
                     android:text="75%"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
-                    android:elevation="2dp"
+                    android:elevation="2sp"
                     android:text="Your Attendance"
                     app:layout_constraintBottom_toBottomOf="@+id/CSE"
                     app:layout_constraintEnd_toEndOf="@+id/CSE"
@@ -197,10 +197,10 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/EE"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="50dp"
+                    app:cardCornerRadius="50sp"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintStart_toEndOf="@+id/ECE" />
 
@@ -208,8 +208,8 @@
                     android:id="@+id/RemainingClasses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="0sp"
+                    android:elevation="2sp"
                     android:text="10"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -221,8 +221,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="80sp"
+                    android:elevation="2sp"
                     android:text="Classes Remaining"
                     app:layout_constraintBottom_toBottomOf="@+id/EE"
                     app:layout_constraintEnd_toEndOf="@+id/EE"
@@ -231,10 +231,10 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/ECE"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="50dp"
+                    app:cardCornerRadius="50sp"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintStart_toEndOf="@+id/IT" />
 
@@ -242,8 +242,8 @@
                     android:id="@+id/TotalClassesTaken"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="0sp"
+                    android:elevation="2sp"
                     android:text="20"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -256,8 +256,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="80sp"
+                    android:elevation="2sp"
                     android:text="Classes Taken"
                     app:layout_constraintBottom_toBottomOf="@+id/ECE"
                     app:layout_constraintEnd_toEndOf="@+id/ECE"
@@ -266,10 +266,10 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/IT"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="50dp"
+                    app:cardCornerRadius="50sp"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintStart_toEndOf="@+id/CSE"
                     tools:layout_editor_absoluteX="211dp" />
@@ -278,8 +278,8 @@
                     android:id="@+id/TotalClassesAttended"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="0sp"
+                    android:elevation="2sp"
                     android:text="15"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -292,8 +292,8 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:elevation="2dp"
+                    android:layout_marginTop="80sp"
+                    android:elevation="2sp"
                     android:text="Classes Attended"
                     app:layout_constraintBottom_toBottomOf="@+id/IT"
                     app:layout_constraintEnd_toEndOf="@+id/IT"

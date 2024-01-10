@@ -5,42 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Teacher.Attendance.TakeAttendance">
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/qr"
-        android:layout_width="250dp"
-        android:layout_height="65dp"
-        android:layout_gravity="bottom|right"
-        android:gravity="center"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/my_purple"
-        android:text="OPEN SCANNER"
-        android:textStyle="bold"
-        android:textSize="16dp"
-        android:textColor="#5B72B6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="300sp"
         android:background="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="40sp"
         android:textColor="#647DCA"
-        android:padding="10dp"
-        android:paddingStart="18dp"/>
+        android:padding="10sp"
+        android:paddingStart="18sp"/>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="27dp"
+        android:layout_width="22sp"
+        android:layout_height="22sp"
+        android:layout_marginStart="8sp"
+        android:layout_marginTop="26sp"
         android:background="@drawable/leftarrow"
         android:backgroundTint="#5B72B6"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,14 +34,29 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Today's Attandance"
-        android:layout_marginStart="8dp"
         android:textColor="#5B72B6"
-        android:textSize="28dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/download"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/download"
+        android:backgroundTint="#5B72B6"
+        android:textColor="#5B72B6"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,7 +65,7 @@
         android:layout_height="match_parent"
         android:elevation="3dp"
         android:background="@drawable/curve"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="80sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,23 +74,25 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout4"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180sp"
             android:backgroundTint="#F1E6FF"
             android:background="@drawable/roundedcorners"
             android:elevation="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="120dp"
+                android:layout_width="140sp"
+                android:layout_height="100sp"
+                android:layout_marginStart="34sp"
                 android:elevation="5dp"
-                android:padding="200dp"
+                android:padding="200sp"
                 app:cardBackgroundColor="@color/my_purple"
-                android:layout_marginEnd="26dp"
-                app:cardCornerRadius="30dp"
+                app:cardCornerRadius="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mutualFriends"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
@@ -108,7 +109,7 @@
                         android:gravity="center"
                         android:text="0"
                         android:textColor="#5B72B6"
-                        android:textSize="48dp"
+                        android:textSize="38sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -118,7 +119,7 @@
                         android:gravity="center"
                         android:text="Strength"
                         android:textColor="#5B72B6"
-                        android:textSize="16dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
 
@@ -126,13 +127,13 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/mutualFriends"
-                android:layout_width="160dp"
-                android:layout_height="120dp"
-                android:elevation="5dp"
-                android:padding="200dp"
-                android:layout_marginStart="26dp"
+                android:layout_width="140sp"
+                android:layout_height="100sp"
+                android:elevation="5sp"
+                android:padding="200sp"
+                android:layout_marginStart="26sp"
                 app:cardBackgroundColor="@color/my_purple"
-                app:cardCornerRadius="30dp"
+                app:cardCornerRadius="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -152,7 +153,7 @@
                         android:elevation="4dp"
                         android:text="0"
                         android:textColor="#5B72B6"
-                        android:textSize="48dp"
+                        android:textSize="38sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -162,7 +163,7 @@
                         android:gravity="center"
                         android:text="Present"
                         android:textColor="#5B72B6"
-                        android:textSize="16dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -172,10 +173,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="0sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="8sp"
+            android:layout_marginEnd="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -186,8 +187,8 @@
 
     <ImageView
         android:id="@+id/qrImage"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
         android:background="@drawable/qrcode"
         android:backgroundTint="#5B72B6"
         android:elevation="3dp"
@@ -195,4 +196,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/qr"
+        android:layout_width="190sp"
+        android:layout_height="55sp"
+        android:layout_gravity="bottom|right"
+        android:gravity="center"
+        android:layout_marginBottom="24sp"
+        android:backgroundTint="@color/my_purple"
+        android:text="OPEN SCANNER"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#5B72B6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/editAtt"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginStart="30sp"
+        android:layout_marginBottom="85sp"
+        android:background="@drawable/edit"
+        android:clickable="true"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:text="Edit Attendance"
+        android:textColor="#5B72B6"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

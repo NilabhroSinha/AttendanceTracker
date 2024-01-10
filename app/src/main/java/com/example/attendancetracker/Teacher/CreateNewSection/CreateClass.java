@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,11 +48,11 @@ import java.util.Date;
 
 public class CreateClass extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     EditText className;
-    String department, teacherName, teacherImage, class_Timing;
+    String whichYear, teacherName, teacherImage, class_Timing;
     Spinner dropDown;
     TextView duration, startDate, classTime;
     ImageView datePicker, timePicker, close;
-    RadioButton mon, tue, wed, thu, fri;
+    CheckBox mon, tue, wed, thu, fri;
     Button createButton;
     Date sDate, endDate;
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -77,7 +78,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
         createButton = findViewById(R.id.create);
         close = findViewById(R.id.close);
 
-        department = getIntent().getStringExtra("department");
+        whichYear = getIntent().getStringExtra("whichYear");
         teacherName = getIntent().getStringExtra("teacherName");
         teacherImage = getIntent().getStringExtra("teacherImage");
 
@@ -189,13 +190,13 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                 String classID = FirebaseDatabase.getInstance().getReference().push().getKey();
 
                 TeacherClassModel teacherClassModel = new TeacherClassModel(className.getText().toString(), classTime.getText().toString(), classID, dateClass, timetable);
-                FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).setValue(teacherClassModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).setValue(teacherClassModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(CreateClass.this, "Class created successfully!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateClass.this, AddStudentsToClass.class);
-                            intent.putExtra("department", department);
+                            intent.putExtra("whichYear", whichYear);
                             intent.putExtra("classID", classID);
                             intent.putExtra("className", className.getText().toString());
                             intent.putExtra("teacherName", teacherName);

@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
+import com.example.attendancetracker.Student.StudentEditProfile.StudentEditProfile;
 import com.example.attendancetracker.Student.StudentHomePage.StudentHome;
 import com.example.attendancetracker.Teacher.Adapters.AllAssignedClassesAdapter;
 import com.example.attendancetracker.Teacher.CreateNewSection.CreateClass;
 import com.example.attendancetracker.Teacher.TeacherAdapters.AllAssignedClassesAdapter2;
+import com.example.attendancetracker.Teacher.TeacherEditProfile.TeacherEditProfile;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllAssignedClasses extends AppCompatActivity {
-    String department, teacherName, teacherImage;
+    String whichYear, teacherName, teacherImage;
     CircleImageView profilePicture;
     RecyclerView AllAssignedClassesRecyclerView;
     AllAssignedClassesAdapter2 recyclerViewAdapter;
@@ -57,7 +59,9 @@ public class AllAssignedClasses extends AppCompatActivity {
 
         createClass = findViewById(R.id.createClass);
 
-        department = getIntent().getStringExtra("department");
+        whichYear = getIntent().getStringExtra("whichYear");
+        teacherImage = getIntent().getStringExtra("teacherImage");
+        teacherName = getIntent().getStringExtra("teacherName");
 
         AllAssignedClassesRecyclerView = findViewById(R.id.recycler);
 
@@ -65,32 +69,14 @@ public class AllAssignedClasses extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child("name").addValueEventListener(new ValueEventListener() {
+        Glide.with(AllAssignedClasses.this).load(teacherImage).into(profilePicture);
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    teacherName = snapshot.getValue(String.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child("imageID").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    teacherImage = snapshot.getValue(String.class);
-                    Glide.with(AllAssignedClasses.this).load(teacherImage).into(profilePicture);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(AllAssignedClasses.this, TeacherEditProfile.class);
+                intent.putExtra("imageID", teacherImage);
+                startActivity(intent);
             }
         });
 
@@ -100,14 +86,16 @@ public class AllAssignedClasses extends AppCompatActivity {
                 addButton.toggle(true);
 
                 Intent intent = new Intent(AllAssignedClasses.this, CreateClass.class);
-                intent.putExtra("department", getIntent().getStringExtra("department"));
+                intent.putExtra("whichYear", getIntent().getStringExtra("whichYear"));
                 intent.putExtra("teacherName", teacherName);
                 intent.putExtra("teacherImage", teacherImage);
                 AllAssignedClasses.this.startActivity(intent);
             }
         });
 
-        database.getReference().child("Teacher").child(auth.getUid()).child(department).addValueEventListener(new ValueEventListener() {
+
+
+        database.getReference().child("Teacher").child(auth.getUid()).child(whichYear).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classesArrayList.clear();
@@ -120,7 +108,7 @@ public class AllAssignedClasses extends AppCompatActivity {
 
                     AllAssignedClassesRecyclerView.setLayoutManager(new LinearLayoutManager(AllAssignedClasses.this));
 
-                    recyclerViewAdapter = new AllAssignedClassesAdapter2(AllAssignedClasses.this, classesArrayList, teacherImage, department);
+                    recyclerViewAdapter = new AllAssignedClassesAdapter2(AllAssignedClasses.this, classesArrayList, teacherName, teacherImage, whichYear);
                     AllAssignedClassesRecyclerView.setAdapter(recyclerViewAdapter);
 
                 }
@@ -134,6 +122,9 @@ public class AllAssignedClasses extends AppCompatActivity {
 
             }
         });
+
+
+
 
     }
 }

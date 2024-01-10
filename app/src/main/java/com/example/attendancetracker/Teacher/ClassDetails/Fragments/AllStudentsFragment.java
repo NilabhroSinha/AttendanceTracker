@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.attendancetracker.R;
@@ -30,7 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class AllStudentsFragment extends Fragment {
-    String department, classID;
+    String whichYear, classID;
     RecyclerView recyclerView;
     AllStudentsFragmentAdapter recyclerViewAdapter;
     FirebaseAuth auth;
@@ -40,8 +42,8 @@ public class AllStudentsFragment extends Fragment {
     public AllStudentsFragment() {
     }
 
-    public AllStudentsFragment(String department, String classID) {
-        this.department = department;
+    public AllStudentsFragment(String whichYear, String classID) {
+        this.whichYear = whichYear;
         this.classID = classID;
     }
 
@@ -53,7 +55,7 @@ public class AllStudentsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv);
         auth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(department).child(classID).child("allStudents").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(auth.getUid()).child(whichYear).child(classID).child("allStudents").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) return;
@@ -63,7 +65,7 @@ public class AllStudentsFragment extends Fragment {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     String studentID = dataSnapshot.getValue(String.class);
 
-                    FirebaseDatabase.getInstance().getReference().child("student").child(department).addListenerForSingleValueEvent(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).addListenerForSingleValueEvent(new ValueEventListener() {
 
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -8,7 +8,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="0dp"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:background="@color/my_purple"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,21 +16,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="center"
         app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorHeight="4sp"
         app:tabMode="scrollable"
         app:tabTextAppearance="?android:attr/textAppearanceMedium"
         app:tabTextColor="@android:color/white" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="200sp"
         android:background="@color/my_purple"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcomingEventsList"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:padding="8dp"
+        android:layout_height="300sp"
+        android:padding="8sp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

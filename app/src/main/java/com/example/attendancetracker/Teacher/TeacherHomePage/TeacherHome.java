@@ -21,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TeacherHome extends AppCompatActivity {
-    CardView cse, it, ece, ee, aeie;
+    String teacherName;
+    CardView first, second, third, fourth;
     CircleImageView personalDP;
 
     @Override
@@ -31,11 +32,10 @@ public class TeacherHome extends AppCompatActivity {
 
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.my_purple));
 
-        cse = findViewById(R.id.CSE);
-        it = findViewById(R.id.IT);
-        ece = findViewById(R.id.ECE);
-        ee = findViewById(R.id.EE);
-        aeie = findViewById(R.id.AEIE);
+        first = findViewById(R.id.first);
+        second = findViewById(R.id.second);
+        third = findViewById(R.id.third);
+        fourth = findViewById(R.id.fourth);
         personalDP = findViewById(R.id.personalDP);
 
         FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
@@ -44,8 +44,53 @@ public class TeacherHome extends AppCompatActivity {
                 if(!snapshot.exists()) return;
 
                 String image = snapshot.child("imageID").getValue(String.class);
+                teacherName = snapshot.child("name").getValue(String.class);
 
                 Glide.with(getApplicationContext()).load(image).into(personalDP);
+
+                first.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
+                        intent.putExtra("whichYear", "First");
+                        intent.putExtra("teacherImage", image);
+                        intent.putExtra("teacherName", teacherName);
+                        TeacherHome.this.startActivity(intent);
+                    }
+                });
+
+                second.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
+                        intent.putExtra("whichYear", "Second");
+                        intent.putExtra("teacherImage", image);
+                        intent.putExtra("teacherName", teacherName);
+                        TeacherHome.this.startActivity(intent);
+                    }
+                });
+
+                third.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
+                        intent.putExtra("whichYear", "Third");
+                        intent.putExtra("teacherImage", image);
+                        intent.putExtra("teacherName", teacherName);
+                        TeacherHome.this.startActivity(intent);
+                    }
+                });
+
+                fourth.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
+                        intent.putExtra("whichYear", "Fourth");
+                        intent.putExtra("teacherImage", image);
+                        intent.putExtra("teacherName", teacherName);
+                        TeacherHome.this.startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -54,52 +99,6 @@ public class TeacherHome extends AppCompatActivity {
             }
         });
 
-
-
-        cse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
-                intent.putExtra("department", "CSE");
-                TeacherHome.this.startActivity(intent);
-            }
-        });
-
-        it.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
-                intent.putExtra("department", "IT");
-                TeacherHome.this.startActivity(intent);
-            }
-        });
-
-        ece.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
-                intent.putExtra("department", "ECE");
-                TeacherHome.this.startActivity(intent);
-            }
-        });
-
-        ee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
-                intent.putExtra("department", "EE");
-                TeacherHome.this.startActivity(intent);
-            }
-        });
-
-        aeie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherHome.this, AllAssignedClasses.class);
-                intent.putExtra("department", "AEIE");
-                TeacherHome.this.startActivity(intent);
-            }
-        });
 
 
 

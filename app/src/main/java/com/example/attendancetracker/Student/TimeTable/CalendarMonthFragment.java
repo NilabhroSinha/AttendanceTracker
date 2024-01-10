@@ -125,9 +125,11 @@ public class CalendarMonthFragment extends Fragment {
             ));
 
             dateTextView.setText(String.valueOf(day));
-            dateTextView.setPadding(40, 50, 40, 50);
+            dateTextView.setPadding(40, 40, 40, 40);
             dateTextView.setGravity(Gravity.CENTER);
             dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18); // Adjust the text size as needed
+
+
 
 
             // Highlight event dates in the calendar
@@ -140,10 +142,24 @@ public class CalendarMonthFragment extends Fragment {
 
                 if (currentYear == eventYear && currentMonth == eventMonth && day == eventDay) {
 //                    dateTextView.setBackgroundResource(R.drawable.highlighted_background);
-                    dateTextView.setTextColor(getResources().getColor(R.color.red));
+                    dateTextView.setTextColor(context.getColor(R.color.red));
                     dateTextView.setTypeface(null, Typeface.BOLD);
                     break;
                 }
+            }
+
+            Calendar cal = Calendar.getInstance();
+
+            cal.set(Calendar.YEAR, currentYear);
+            cal.set(Calendar.MONTH, currentMonth);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            Date date = cal.getTime();
+            Date today = Calendar.getInstance().getTime();
+
+            if(date.equals(today)){
+                dateTextView.setTextColor(context.getColor(R.color.that_blue));
+                dateTextView.setTypeface(null, Typeface.BOLD);
             }
 
             // Handle click events on date TextView

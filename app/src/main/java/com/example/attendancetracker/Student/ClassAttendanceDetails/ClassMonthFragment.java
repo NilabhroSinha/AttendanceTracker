@@ -44,21 +44,21 @@ public class ClassMonthFragment extends Fragment {
     Context context;
     private int currentYear;
     private int currentMonth;
-    String classID, teacherID, department;
+    String classID, teacherID, whichYear;
     ArrayList<Date> presentDaysList = new ArrayList<>();
     ArrayList<Integer> classDays = new ArrayList<>();
     public ClassMonthFragment() {
 
     }
 
-    public static ClassMonthFragment newInstance(int year, int month, String classID, String teacherID, String department) {
+    public static ClassMonthFragment newInstance(int year, int month, String classID, String teacherID, String whichYear) {
         ClassMonthFragment fragment = new ClassMonthFragment();
         Bundle args = new Bundle();
         args.putInt("year", year);
         args.putInt("month", month);
         args.putString("classID", classID);
         args.putString("teacherID", teacherID);
-        args.putString("department", department);
+        args.putString("whichYear", whichYear);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +74,7 @@ public class ClassMonthFragment extends Fragment {
             currentMonth = getArguments().getInt("month");
             classID = getArguments().getString("classID");
             teacherID = getArguments().getString("teacherID");
-            department = getArguments().getString("department");
+            whichYear = getArguments().getString("whichYear");
         } else {
             Calendar calendar = Calendar.getInstance();
             currentYear = calendar.get(Calendar.YEAR);
@@ -127,7 +127,7 @@ public class ClassMonthFragment extends Fragment {
             calendarGrid.addView(emptyTextView);
         }
 
-        FirebaseDatabase.getInstance().getReference().child("student").child(department).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(classID).child("presentDays").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(FirebaseAuth.getInstance().getUid()).child("allClasses").child(classID).child("presentDays").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 presentDaysList.clear();
@@ -148,14 +148,15 @@ public class ClassMonthFragment extends Fragment {
                     ));
 
                     dateTextView.setText(String.valueOf(day));
-                    dateTextView.setPadding(40, 50, 40, 50);
+                    dateTextView.setPadding(40, 30, 40, 30);
                     dateTextView.setGravity(Gravity.CENTER);
                     dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18); // Adjust the text size as needed
 
 
                     int finalDay = day;
 
-                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(department).child(classID).child("dateClass").addListenerForSingleValueEvent(new ValueEventListener() {
+                    int finalDay1 = day;
+                    FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(whichYear).child(classID).child("dateClass").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(!snapshot.exists()) return;
@@ -210,7 +211,21 @@ public class ClassMonthFragment extends Fragment {
                                 dateTextView.setTextColor(context.getColor(R.color.that_grey));
                             }
 
+                            for (Date prsntDate : presentDaysList) {
+                                Calendar eventCalendar = Calendar.getInstance();
+                                eventCalendar.setTime(prsntDate);
 
+                                int eventYear = eventCalendar.get(Calendar.YEAR);
+                                int eventMonth = eventCalendar.get(Calendar.MONTH);
+                                int eventDay = eventCalendar.get(Calendar.DAY_OF_MONTH);
+
+                                if (currentYear == eventYear && currentMonth == eventMonth && finalDay1 == eventDay) {
+//                    dateTextView.setBackgroundResource(R.drawable.highlighted_background);
+                                    dateTextView.setTextColor(context.getColor(R.color.that_green));
+                                    dateTextView.setTypeface(null, Typeface.BOLD);
+                                    break;
+                                }
+                            }
 
 
 
@@ -223,21 +238,7 @@ public class ClassMonthFragment extends Fragment {
                     });
 
 
-                    for (Date prsntDate : presentDaysList) {
-                        Calendar eventCalendar = Calendar.getInstance();
-                        eventCalendar.setTime(prsntDate);
 
-                        int eventYear = eventCalendar.get(Calendar.YEAR);
-                        int eventMonth = eventCalendar.get(Calendar.MONTH);
-                        int eventDay = eventCalendar.get(Calendar.DAY_OF_MONTH);
-
-                        if (currentYear == eventYear && currentMonth == eventMonth && day == eventDay) {
-//                    dateTextView.setBackgroundResource(R.drawable.highlighted_background);
-                            dateTextView.setTextColor(context.getColor(R.color.that_green));
-                            dateTextView.setTypeface(null, Typeface.BOLD);
-                            break;
-                        }
-                    }
 
                     // Handle click events on date TextView
                     calendarGrid.addView(dateTextView);

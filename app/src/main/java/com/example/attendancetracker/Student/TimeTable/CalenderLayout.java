@@ -66,7 +66,7 @@ public class CalenderLayout extends AppCompatActivity{
         Calendar currentDate = Calendar.getInstance();
         int currentYear = currentDate.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH);
-        viewPager.setCurrentItem(6, true);
+        viewPager.setCurrentItem(6, false);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

@@ -3,16 +3,16 @@ package com.example.attendancetracker.Student.StudentModel;
 import java.util.ArrayList;
 
 public class StudentModel {
-    String stuID, name, email, imageID, department, rollnumber;
+    String stuID, name, email, imageID, whichYear, rollnumber;
     ArrayList <String>classes;
     StudentClassModel studentClassModel;
 
-    public StudentModel(String stuID, String name, String email, String imageID, String department, String rollnumber, ArrayList<String> classes) {
+    public StudentModel(String stuID, String name, String email, String imageID, String whichYear, String rollnumber, ArrayList<String> classes) {
         this.stuID = stuID;
         this.name = name;
         this.email = email;
         this.imageID = imageID;
-        this.department = department;
+        this.whichYear = whichYear;
         this.rollnumber = rollnumber;
         this.classes = classes;
     }
@@ -60,12 +60,12 @@ public class StudentModel {
         this.imageID = imageID;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getWhichYear() {
+        return whichYear;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setWhichYear(String whichYear) {
+        this.whichYear = whichYear;
     }
 
     public String getRollnumber() {

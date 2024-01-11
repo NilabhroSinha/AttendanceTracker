@@ -25,6 +25,7 @@ import com.example.attendancetracker.Student.StudentHomePage.StudentHome;
 import com.example.attendancetracker.Student.StudentModel.StudentClassModel;
 import com.example.attendancetracker.Student.TimeTable.CalendarMonthFragment;
 import com.example.attendancetracker.Student.TimeTable.HolidayEvent;
+import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
 import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -47,11 +50,12 @@ public class ClassMonthFragment extends Fragment {
     String classID, teacherID, whichYear;
     ArrayList<Date> presentDaysList = new ArrayList<>();
     ArrayList<Integer> classDays = new ArrayList<>();
-    public ClassMonthFragment() {
+    HashSet<Date> hlistSet;
 
+    public ClassMonthFragment() {
     }
 
-    public static ClassMonthFragment newInstance(int year, int month, String classID, String teacherID, String whichYear) {
+    public static ClassMonthFragment newInstance(int year, int month, String classID, String teacherID, String whichYear, HashSet<Date> hlistSet) {
         ClassMonthFragment fragment = new ClassMonthFragment();
         Bundle args = new Bundle();
         args.putInt("year", year);
@@ -59,6 +63,7 @@ public class ClassMonthFragment extends Fragment {
         args.putString("classID", classID);
         args.putString("teacherID", teacherID);
         args.putString("whichYear", whichYear);
+        args.putSerializable("hlistSet", hlistSet);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,12 +74,14 @@ public class ClassMonthFragment extends Fragment {
 
         context = getContext();
 
+
         if (getArguments() != null) {
             currentYear = getArguments().getInt("year");
             currentMonth = getArguments().getInt("month");
             classID = getArguments().getString("classID");
             teacherID = getArguments().getString("teacherID");
             whichYear = getArguments().getString("whichYear");
+            hlistSet = (HashSet<Date>)getArguments().getSerializable("hlistSet");
         } else {
             Calendar calendar = Calendar.getInstance();
             currentYear = calendar.get(Calendar.YEAR);
@@ -89,6 +96,7 @@ public class ClassMonthFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_calendar_month, container, false);
 
         GridLayout calendarGrid = rootView.findViewById(R.id.calendarGrid);
+
 
         SimpleDateFormat titleFormat = new SimpleDateFormat("MMMM yyyy", Locale.US);
         TextView calendarTitle = rootView.findViewById(R.id.calendarTitle);
@@ -180,10 +188,17 @@ public class ClassMonthFragment extends Fragment {
                             Date date = calendar.getTime();
                             Date today = Calendar.getInstance().getTime();
 
+                            today = setTime( today, 0, 0, 0, 0 );
+                            date = setTime( date, 0, 0, 0, 0 );
+
                             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-                            if(classDays.contains(dayOfWeek-2)){
-                                if(date.before(startDate) || date.after(endDate)){
+                            if(date.equals(today)){
+                                dateTextView.setTextColor(context.getColor(R.color.that_blue));
+                                dateTextView.setTypeface(null, Typeface.BOLD);
+                            }
+                            else if(classDays.contains(dayOfWeek-2)){
+                                if(date.before(startDate) || date.after(endDate) || hlistSet.contains(date)){
                                     dateTextView.setTextColor(context.getColor(R.color.that_grey));
                                 }
 
@@ -199,9 +214,6 @@ public class ClassMonthFragment extends Fragment {
                                     dateTextView.setTextColor(context.getColor(R.color.that_blue));
                                     dateTextView.setTypeface(null, Typeface.BOLD);
                                 }
-                            }else if(date.equals(today)){
-                                dateTextView.setTextColor(context.getColor(R.color.that_blue));
-                                dateTextView.setTypeface(null, Typeface.BOLD);
                             }
                             else{
                                 dateTextView.setTextColor(context.getColor(R.color.that_grey));
@@ -251,6 +263,17 @@ public class ClassMonthFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public static Date setTime( Date date, int hourOfDay, int minute, int second, int ms )
+    {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime( date );
+        gc.set( Calendar.HOUR_OF_DAY, hourOfDay );
+        gc.set( Calendar.MINUTE, minute );
+        gc.set( Calendar.SECOND, second );
+        gc.set( Calendar.MILLISECOND, ms );
+        return gc.getTime();
     }
 
     public Calendar getCalendarForMonth(int year, int month) {

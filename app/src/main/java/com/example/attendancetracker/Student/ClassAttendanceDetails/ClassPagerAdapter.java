@@ -12,6 +12,8 @@ import com.example.attendancetracker.Student.TimeTable.CalendarMonthFragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,13 +22,15 @@ public class ClassPagerAdapter extends FragmentStateAdapter {
     private final int NUM_MONTHS = 13;
     private final List<ClassMonthFragment> fragments = new ArrayList<>();
     private final List<String> monthTitles = new ArrayList<>();
+    HashSet<Date> hlistSet;
 
-    public ClassPagerAdapter(@NonNull FragmentActivity fragmentActivity, String classID, String teacherID, String whichYear) {
+    public ClassPagerAdapter(@NonNull FragmentActivity fragmentActivity, String classID, String teacherID, String whichYear, HashSet<Date> hlistSet) {
         super(fragmentActivity);
 
         this.classID = classID;
         this.teacherID = teacherID;
         this.whichYear = whichYear;
+        this.hlistSet = hlistSet;
     }
 
     @NonNull
@@ -47,7 +51,7 @@ public class ClassPagerAdapter extends FragmentStateAdapter {
             month -= 12;
         }
 
-        ClassMonthFragment fragment = ClassMonthFragment.newInstance(year, month, classID, teacherID, whichYear);
+        ClassMonthFragment fragment = ClassMonthFragment.newInstance(year, month, classID, teacherID, whichYear, hlistSet);
 
         fragments.add(fragment);
         return fragment;

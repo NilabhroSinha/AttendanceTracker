@@ -150,7 +150,7 @@ public class TakeAttendance extends AppCompatActivity {
                                             download.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    CSVExporter.exportToCSV(TakeAttendance.this, presentS, date);
+                                                    CSVExporter.exportToCSV(TakeAttendance.this, presentS, date, whichYear);
                                                 }
                                             });
                                         }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +18,8 @@ import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.StudentEditProfile.StudentEditProfile;
 import com.example.attendancetracker.Student.StudentHomePage.StudentHome;
 import com.example.attendancetracker.Teacher.Adapters.AllAssignedClassesAdapter;
+import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
+import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.example.attendancetracker.Teacher.CreateNewSection.CreateClass;
 import com.example.attendancetracker.Teacher.TeacherAdapters.AllAssignedClassesAdapter2;
 import com.example.attendancetracker.Teacher.TeacherEditProfile.TeacherEditProfile;
@@ -37,6 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AllAssignedClasses extends AppCompatActivity {
     String whichYear, teacherName, teacherImage;
     CircleImageView profilePicture;
+    ImageView emptyList;
     RecyclerView AllAssignedClassesRecyclerView;
     AllAssignedClassesAdapter2 recyclerViewAdapter;
     ArrayList<TeacherClassModel> classesArrayList = new ArrayList<>();
@@ -45,6 +49,7 @@ public class AllAssignedClasses extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     FirebaseStorage storage;
+    ArrayList<CustomPair> hList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +63,11 @@ public class AllAssignedClasses extends AppCompatActivity {
         addButton = findViewById(R.id.addUser);
         addButton.setMenuButtonColorPressed(R.color.my_dark_purple);
         addButton.setMenuButtonColorNormalResId(R.color.my_dark_purple);
+        emptyList = findViewById(R.id.emptyList);
 
         createClass = findViewById(R.id.createClass);
+
+        hList = CalendarApiClient.getList();
 
         whichYear = getIntent().getStringExtra("whichYear");
         teacherImage = getIntent().getStringExtra("teacherImage");
@@ -91,6 +99,7 @@ public class AllAssignedClasses extends AppCompatActivity {
                 intent.putExtra("whichYear", getIntent().getStringExtra("whichYear"));
                 intent.putExtra("teacherName", teacherName);
                 intent.putExtra("teacherImage", teacherImage);
+                intent.putExtra("hList",hList);
                 AllAssignedClasses.this.startActivity(intent);
             }
         });
@@ -103,6 +112,8 @@ public class AllAssignedClasses extends AppCompatActivity {
                 classesArrayList.clear();
                 TeacherClassModel classModel;
                 if(snapshot.exists()){
+                    emptyList.setVisibility(View.GONE);
+
                     for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                         classModel = dataSnapshot.getValue(TeacherClassModel.class);
                         classesArrayList.add(classModel);
@@ -115,7 +126,8 @@ public class AllAssignedClasses extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(AllAssignedClasses.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                    emptyList.setVisibility(View.VISIBLE);
+                    Toast.makeText(AllAssignedClasses.this, "No Classes created", Toast.LENGTH_SHORT).show();
                 }
             }
 

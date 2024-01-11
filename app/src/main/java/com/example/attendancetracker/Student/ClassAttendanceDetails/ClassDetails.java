@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.attendancetracker.R;
 import com.example.attendancetracker.Student.TimeTable.CalendarPagerAdapter;
 import com.example.attendancetracker.Student.TimeTable.EventAdapter;
+import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
 import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -31,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 public class ClassDetails extends AppCompatActivity {
     int classesTaken = 0, classesRemaining = 0, presentDays = 0;
@@ -39,6 +41,8 @@ public class ClassDetails extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     ArrayList<Integer> classDays = new ArrayList<>();
+    HashSet<Date> hlistSet;
+    ArrayList<CustomPair> hList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,16 @@ public class ClassDetails extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
 
-        ClassPagerAdapter adapter = new ClassPagerAdapter(this, classID, teacherID, whichYear);
+        hList = CalendarApiClient.getList();
+
+        hlistSet = new HashSet<>();
+
+        for(CustomPair cm: hList){
+            hlistSet.add(cm.getDateValue());
+        }
+
+
+        ClassPagerAdapter adapter = new ClassPagerAdapter(this, classID, teacherID, whichYear, hlistSet);
         viewPager.setAdapter(adapter);
 
         FirebaseDatabase.getInstance().getReference().child("Teacher").child(teacherID).child(whichYear).child(classID).child("dateClass").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,9 +105,11 @@ public class ClassDetails extends AppCompatActivity {
                 while (startCalendar.before(endCalendar)) {
                     Date currentDate = startCalendar.getTime();
 
+                    currentDate = ClassMonthFragment.setTime(currentDate, 0, 0, 0, 0);
+
                     int dayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
 
-                    if(classDays.contains(dayOfWeek-2)){
+                    if(!hlistSet.contains(currentDate) && classDays.contains(dayOfWeek-2)){
                         if(currentDate.before(today)){
                             classesTaken++;
                         } else if (currentDate.after(today)) {

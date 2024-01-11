@@ -97,6 +97,43 @@ public class UpdateAttendanceAdapter extends RecyclerView.Adapter<UpdateAttendan
             }
         });
 
+        holder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                teacherRef.child("timeTable").child(pos+"").child("presentStudents").child(studentID).removeValue();
+
+                teacherRef.child("timeTable").child(pos+"").child("date").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!snapshot.exists()) return;
+                        Long timeInLong = snapshot.child("time").getValue(Long.class);
+
+                        Date date = new Date(timeInLong);
+
+                        String dateToDelete = "-1";
+
+                        LocalDate localDate = null;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();;
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            dateToDelete = String.valueOf(localDate.getDayOfYear());
+                        }
+
+                        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").child(classID).child("presentDays").child(dateToDelete).removeValue();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+        });
+
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,37 +143,26 @@ public class UpdateAttendanceAdapter extends RecyclerView.Adapter<UpdateAttendan
 
                 teacherRef.child("timeTable").child(pos+"").child("presentStudents").updateChildren(map);
 
-                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).addValueEventListener(new ValueEventListener() {
+
+                teacherRef.child("timeTable").child(pos+"").child("date").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!snapshot.exists()) return;
+
                         HashMap<String, Object> map1 = new HashMap<>();
+                        Long timeInLong = snapshot.child("time").getValue(Long.class);
 
-                        teacherRef.child("timeTable").child(pos+"").child("date").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(!snapshot.exists()) return;
-                                Long timeInLong = snapshot.child("time").getValue(Long.class);
+                        Date date = new Date(timeInLong);
 
-                                Date date = new Date(timeInLong);
+                        LocalDate localDate = null;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();;
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            map1.put(String.valueOf(localDate.getDayOfYear()), date);
+                        }
 
-                                LocalDate localDate = null;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();;
-                                }
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    map1.put(String.valueOf(localDate.getDayOfYear()), date);
-                                }
-
-                                FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                        FirebaseDatabase.getInstance().getReference().child("student").child(whichYear).child(studentID).child("allClasses").child(classID).child("presentDays").updateChildren(map1);
 
                     }
 
@@ -145,6 +171,7 @@ public class UpdateAttendanceAdapter extends RecyclerView.Adapter<UpdateAttendan
 
                     }
                 });
+
 
                 notifyDataSetChanged();
             }

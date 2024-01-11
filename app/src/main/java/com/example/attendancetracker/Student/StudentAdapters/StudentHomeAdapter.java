@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +59,7 @@ public class StudentHomeAdapter extends RecyclerView.Adapter<StudentHomeAdapter.
 
 
         Glide.with(context).load(studentClassModel[0].getTeacherImage()).into(holder.teacherDp);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

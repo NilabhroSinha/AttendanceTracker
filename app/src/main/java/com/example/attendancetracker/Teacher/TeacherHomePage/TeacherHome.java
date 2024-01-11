@@ -12,12 +12,16 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
+import com.example.attendancetracker.Teacher.ApiCall.CalendarApiClient;
+import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

@@ -50,14 +50,11 @@ public class CalendarApiClient {
 
                             Date currentDate = new Date();
 
-                            // Create a Calendar instance and set it to the current date
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTime(currentDate);
 
-                            // Subtract 6 months from the current date
                             calendar.add(Calendar.MONTH, -6);
 
-                            // Get the resulting date after subtracting 6 months
                             Date sixMonthsAgo = calendar.getTime();
 
                             calendar.add(Calendar.MONTH, 12);

@@ -20,22 +20,28 @@ import java.util.Date;
 import java.util.List;
 
 public class CSVExporter {
-    public static void exportToCSV(Context context, List<StudentModel> studentDataList, Date date) {
+    public static void exportToCSV(Context context, List<StudentModel> studentDataList, Date date, String whichYear) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-            // Format the Date object to a String
             String formattedDate = dateFormat.format(date);
 
-            File file = new File(context.getExternalFilesDir(null), formattedDate+" Attendance Sheet.csv");
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "AttendanceApp");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            File file = new File(directory, formattedDate+" "+whichYear+" year "+ "AttendanceSheet.csv");
             FileWriter fw = new FileWriter(file);
             CSVWriter csvWriter = new CSVWriter(fw);
 
+//            File file = new File(context.getExternalFilesDir(null), formattedDate+" Attendance Sheet.csv");
+//            FileWriter fw = new FileWriter(file);
+//            CSVWriter csvWriter = new CSVWriter(fw);
 
-            // Add header to CSV
+
             csvWriter.writeNext(new String[]{"Name", "Roll Number", "Year", "Department"});
 
-            // Add data to CSV
             for (int i = 0; i < studentDataList.size(); i++) {
                 StudentModel studentData = studentDataList.get(i);
 
@@ -46,7 +52,7 @@ public class CSVExporter {
 
             shareFile(context, file);
 
-            Toast.makeText(context, "CSV file created successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "CSV file created and saved successfully", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Error creating CSV file", Toast.LENGTH_SHORT).show();

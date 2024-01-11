@@ -28,7 +28,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.attendancetracker.R;
+import com.example.attendancetracker.Student.ClassAttendanceDetails.ClassMonthFragment;
 import com.example.attendancetracker.Student.StdSignUp.StudentSignup_2;
+import com.example.attendancetracker.Teacher.ApiCall.CustomPair;
 import com.example.attendancetracker.Teacher.ClassesPage.AllAssignedClasses;
 import com.example.attendancetracker.Teacher.TeacherHomePage.TeacherHome;
 import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
@@ -46,6 +48,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CreateClass extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     EditText className;
@@ -58,6 +62,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
     Date sDate, endDate;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     final Calendar calendar = Calendar.getInstance();
+    ArrayList<CustomPair> hList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,13 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
         whichYear = getIntent().getStringExtra("whichYear");
         teacherName = getIntent().getStringExtra("teacherName");
         teacherImage = getIntent().getStringExtra("teacherImage");
+        hList = (ArrayList<CustomPair>) getIntent().getSerializableExtra("hList");
+
+        HashSet<Date> hlistSet = new HashSet<>();
+
+        for(CustomPair cm: hList){
+            hlistSet.add(cm.getDateValue());
+        }
 
         this.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.white));
 
@@ -104,24 +116,18 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // on below line we are getting our hour, minute.
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
-                // on below line we are initializing our Time Picker Dialog
                 TimePickerDialog timePickerDialog = new TimePickerDialog(CreateClass.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                // on below line we are setting selected time
-                                // in our text view.
 
                                 class_Timing = updateTime(hourOfDay, minute);
                                 classTime.setText(class_Timing);
                             }
                         }, hour, minute, false);
-                // at last we are calling show to
-                // display our time picker dialog.
                 timePickerDialog.show();
 
             }
@@ -131,20 +137,15 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View v) {
 
-                // on below line we are getting
-                // our day, month and year.
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                // on below line we are creating a variable for date picker dialog.
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        // on below line we are passing context.
                         CreateClass.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // on below line we are setting date to our text view.
                                 String birthday = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                                 startDate.setText(birthday);
 
@@ -154,11 +155,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
 
                             }
                         },
-                        // on below line we are passing year,
-                        // month and day for selected date in our date picker.
                         year, month, day);
-                // at last we are calling show to
-                // display our date picker dialog.
                 datePickerDialog.show();
             }
         });
@@ -187,7 +184,7 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
                 }
 
                 DateClass dateClass = new DateClass(sDate, endDate, weeklyClasses);
-                ArrayList<AttendanceModel> timetable = getClasses(weeklyClasses, firstClass, lastClass);
+                ArrayList<AttendanceModel> timetable = getClasses(weeklyClasses, firstClass, lastClass, hlistSet);
 
                 String classID = FirebaseDatabase.getInstance().getReference().push().getKey();
 
@@ -214,46 +211,49 @@ public class CreateClass extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
-    public static ArrayList<AttendanceModel> getClasses(ArrayList<Integer> arr, LocalDate f, LocalDate l){
+    public static ArrayList<AttendanceModel> getClasses(ArrayList<Integer> arr, LocalDate f, LocalDate l, HashSet<Date> hlistSet){
 
         ArrayList<AttendanceModel> dates = new ArrayList<>();
         DayOfWeek day=null;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for (LocalDate date = f; date.isBefore(l); date = date.plusDays(1))
-            {
+            for (LocalDate date = f; date.isBefore(l); date = date.plusDays(1)) {
+
                 day = date.getDayOfWeek();
+                Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                date1 = ClassMonthFragment.setTime(date1, 0,0,0,0);
+
+                if(hlistSet.contains(date1)){
+                    continue;
+                }
+
                 if(day.name().equals("MONDAY")){
                     if(arr.contains(0)){
 
-                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
                         dates.add(new AttendanceModel(date1));
                     }
                 }
                 else if(day.name().equals("TUESDAY")){
 
                     if(arr.contains(1)){
-                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
                         dates.add(new AttendanceModel(date1));
                     }
                 }
                 else if(day.name().equals("WEDNESDAY")){
 
                     if(arr.contains(2)){
-                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
                         dates.add(new AttendanceModel(date1));
                     }
                 }
                 else if(day.name().equals("THURSDAY")){
 
                     if(arr.contains(3)){
-                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
                         dates.add(new AttendanceModel(date1));
                     }
                 }
                 else if(day.name().equals("FRIDAY")){
                     if(arr.contains(4)){
-                        Date date1 = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
                         dates.add(new AttendanceModel(date1));
                     }
                 }

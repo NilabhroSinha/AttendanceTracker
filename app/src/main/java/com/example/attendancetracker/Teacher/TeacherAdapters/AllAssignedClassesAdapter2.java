@@ -14,9 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.attendancetracker.R;
+import com.example.attendancetracker.Student.ClassAttendanceDetails.ClassMonthFragment;
 import com.example.attendancetracker.Teacher.ClassDetails.ClassDetailsView;
+import com.example.attendancetracker.Teacher.TeacherModel.AttendanceModel;
 import com.example.attendancetracker.Teacher.TeacherModel.DateClass;
 import com.example.attendancetracker.Teacher.TeacherModel.TeacherClassModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -77,14 +84,40 @@ public class AllAssignedClassesAdapter2  extends RecyclerView.Adapter<AllAssigne
             lastDate = LocalDate.of(lastYear, lastMonth, lastDay);
         }
 
-        long remainingClasses = getTotalNoOfClasses(classDays, firstClass, lastDate)-2;
+        final long[] remainingClasses = {0};//{getTotalNoOfClasses(classDays, firstClass, lastDate) - 2};
         String nextClass = getNextClass(classDays);
 
-        holder.remainingClasses.setText("Remaining Classes: " + remainingClasses);
+
         holder.nextClass.setText("Next Class: "+nextClass);
         Glide.with(context).load(profilePicture).into(holder.teacherDp);
         holder.subject.setText(className);
         holder.time.setText("Time: " + time);
+
+        FirebaseDatabase.getInstance().getReference().child("Teacher").child(FirebaseAuth.getInstance().getUid()).child(whichYear).child(classesArrayList.get(position).getClassID()).child("timeTable").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()) return;
+                int remainingClasses = 0;
+
+                for(DataSnapshot snapshot1: snapshot.getChildren()){
+                    AttendanceModel am = snapshot1.getValue(AttendanceModel.class);
+
+                    Date now = new Date();
+                    now = ClassMonthFragment.setTime(now, 0,0,0,0);
+
+                    if(am.getDate().after(now)){
+                        remainingClasses++;
+                    }
+                }
+
+                holder.remainingClasses.setText("Remaining Classes: " + remainingClasses);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

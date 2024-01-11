@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,12 +51,14 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentHome extends AppCompatActivity {
     String studentImage;
     CircleImageView profilePicture;
+    ImageView emptyList;
     RecyclerView studentHomeRecylclerView;
     StudentHomeAdapter recyclerViewAdapter;
     ArrayList<StudentClassModel> classesArrayList = new ArrayList<>();
@@ -65,6 +68,7 @@ public class StudentHome extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseStorage storage;
     ArrayList<CustomPair> hList;
+    HashSet<Date> hlistSet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,7 @@ public class StudentHome extends AppCompatActivity {
         addButton = findViewById(R.id.addUser);
         addButton.setMenuButtonColorPressed(R.color.my_dark_purple);
         addButton.setMenuButtonColorNormalResId(R.color.my_dark_purple);
+        emptyList = findViewById(R.id.emptyList);
 
         studentHomeRecylclerView = findViewById(R.id.recycler);
         qr = findViewById(R.id.qr);
@@ -89,6 +94,13 @@ public class StudentHome extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         hList = CalendarApiClient.getList();
+
+        hlistSet = new HashSet<>();
+
+        for(CustomPair cm: hList){
+            hlistSet.add(cm.getDateValue());
+        }
+
 
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +143,7 @@ public class StudentHome extends AppCompatActivity {
                 Intent intent = new Intent(StudentHome.this, CalenderLayout.class);
 //                Bundle args = new Bundle();
 //                args.putSerializable("ARRAYLIST",(Serializable)hList);
+
                 intent.putExtra("hList",hList);
                 StudentHome.this.startActivity(intent);
             }
@@ -194,6 +207,8 @@ public class StudentHome extends AppCompatActivity {
                                         classesArrayList.clear();
                                         StudentClassModel classModel;
 
+                                        emptyList.setVisibility(View.GONE);
+
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             classModel = dataSnapshot.getValue(StudentClassModel.class);
                                             classesArrayList.add(classModel);
@@ -206,6 +221,7 @@ public class StudentHome extends AppCompatActivity {
 
 
                                     } else {
+                                        emptyList.setVisibility(View.VISIBLE);
                                         Toast.makeText(StudentHome.this, "No Classes Found", Toast.LENGTH_SHORT).show();
                                     }
                                 }
